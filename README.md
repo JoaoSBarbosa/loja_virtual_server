@@ -1,7 +1,6 @@
 # E-commerce System
 
-![Diagrama de Classes](./resource/static/img/Sistema%20E-commerce%20Diagrama%20Classe.jpg)
-
+![Diagrama de Classes](https://raw.githubusercontent.com/JoaoSBarbosa/loja_virtual_server/refs/heads/main/src/main/resources/static/img/Sistema%20E-commerce%20Diagrama%20Classe.jpg)
 ## Sobre o Projeto
 
 Este projeto é um sistema completo de e-commerce desenvolvido utilizando **Java Spring**. O sistema inclui funcionalidades para gerenciar usuários, produtos, vendas, pagamentos, avaliações, estoque e muito mais. Ele foi projetado com base em boas práticas de desenvolvimento e uma arquitetura robusta para garantir escalabilidade e manutenção.
