@@ -1,0 +1,1 @@
+ALTER TABLE usuario_acesso DROP CONSTRAINT "uk_4664573x50o7fa5quyvp6mck9";
