@@ -1,10 +1,7 @@
 package com.barbosacode.lojavirtual.models;
 
 import com.barbosacode.lojavirtual.enums.StatusContaPagar;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serial;
@@ -12,12 +9,14 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+@Getter
+@Setter
+@ToString
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Entity
 @Table(name = "conta_pagar")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @SequenceGenerator(name = "seq_conta_pagar", sequenceName = "seq_conta_pagar", allocationSize = 1, initialValue = 1)
 public class ContaPagar implements Serializable {
     @Serial

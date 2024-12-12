@@ -16,14 +16,17 @@ import javax.persistence.Table;
 import com.barbosacode.lojavirtual.enums.TipoEndereco;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Entity
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Table(name = "endereco")
 @SequenceGenerator(name = "seq_endereco",sequenceName = "seq_endereco",allocationSize = 1,initialValue = 1)
 public class Endereco {
 
 	@Id
+	@EqualsAndHashCode.Include
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_endereco")
 	private Long id;
 	
