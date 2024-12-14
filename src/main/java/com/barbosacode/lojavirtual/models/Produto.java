@@ -30,8 +30,8 @@ public class Produto implements Serializable {
     private BigDecimal valorCompra = BigDecimal.ZERO;
     @Column(name = "valor_venda")
     private BigDecimal valorVenda = BigDecimal.ZERO;
-    @Column(name = "tipo_unitario")
-    private String tipoUnitario;
+    @Column(name = "tipo_unidade")
+    private String tipoUnidade;
     private Boolean ativo = Boolean.TRUE;
     private Double peso;
     private Double largura;

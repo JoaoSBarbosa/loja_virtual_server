@@ -27,11 +27,6 @@ public class ImagemProduto implements Serializable {
     private String imagemMiniatura;
 
     @ManyToOne( targetEntity = Produto.class, fetch = FetchType.EAGER )
-    @JoinColumn(
-            name = "id_produto",
-            nullable = false,
-            foreignKey = @ForeignKey(
-                    value = ConstraintMode.CONSTRAINT,
-                    name = "fk_produto"))
+    @JoinColumn(name = "id_produto", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "fk_produto"))
     private Produto produto;
 }
