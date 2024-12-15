@@ -1,3 +1,17 @@
+![Último Commit](https://img.shields.io/github/last-commit/JoaoSBarbosa/loja_virtual_server?style=flat-square&label=Último%20Commit&color=blue)
+![Versão](https://img.shields.io/badge/vers%C3%A3o-1.0.0-blue?style=flat-square)
+![Java](https://img.shields.io/badge/Java-11-blue?style=flat-square&logo=java)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-2.7-green?style=flat-square&logo=spring)
+![Angular](https://img.shields.io/badge/Angular-15-red?style=flat-square&logo=angular)
+![Contribuições](https://img.shields.io/badge/Contribui%C3%A7%C3%B5es-Bem%20Vindas-brightgreen?style=flat-square)
+![Tamanho do Código](https://img.shields.io/github/languages/code-size/JoaoSBarbosa/loja_virtual_server?style=flat-square&label=Tamanho%20do%20C%C3%B3digo)
+![GitHub top language](https://img.shields.io/github/languages/top/JoaoSBarbosa/loja_virtual_server)
+![Linguagens Utilizadas](https://img.shields.io/github/languages/count/JoaoSBarbosa/loja_virtual_server?style=flat-square&label=Linguagens&logo=github&color=purple&logoColor=white)
+![Observadores](https://img.shields.io/github/watchers/JoaoSBarbosa/loja_virtual_server?style=flat-square&label=Observadores&logo=eye&color=brightgreen)
+![Forks](https://img.shields.io/github/forks/JoaoSBarbosa/loja_virtual_server?style=flat-square&label=Forks&logo=repo-forked&color=blue)
+![Estrelas](https://img.shields.io/github/stars/JoaoSBarbosa/loja_virtual_server?style=flat-square&label=Estrelas&logo=star&color=gold)
+![Acessos](https://img.shields.io/badge/Acessos-1234-blue?style=flat-square&logo=google-analytics&color=teal)
+
 # E-commerce System
 
 ![Diagrama de Classes](https://raw.githubusercontent.com/JoaoSBarbosa/loja_virtual_server/refs/heads/main/src/main/resources/static/img/Sistema%20E-commerce%20Diagrama%20Classe.jpg)
