@@ -31,8 +31,8 @@ public class StatusRastreio implements Serializable {
     private String estado;
     private String status;
 
-//    @ManyToOne(targetEntity = VendaCompraLoja.class)
-//    @JoinColumn(name = "id_venda_compra_loja", nullable = false,
-//    foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "fk_venda_compra_loja"))
-//    private VendaCompraLoja vendaCompraLoja;
+    @ManyToOne(targetEntity = VendaCompra.class)
+    @JoinColumn(name = "id_venda_compra_loja", nullable = false,
+    foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "fk_venda_compra_loja"))
+    private VendaCompra vendaCompra;
 }
