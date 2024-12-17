@@ -28,17 +28,17 @@ public class VendaCompra implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_venda_compra")
     private Long id;
 
-    @Column(name = "valor_total")
+    @Column(name = "valor_total", nullable = false)
     private BigDecimal valorTotal;
     @Column(name = "valor_desconto")
     private BigDecimal valorDesconto;
-    @Column(name = "valor_frete")
-    private BigDecimal valorFrete;
-    @Column(name = "quantidade_dias_entrega")
-    private Integer quantidadeDiasEntrega;
+    @Column(name = "valor_frete",nullable = false)
+    private BigDecimal valorFrete = BigDecimal.ZERO;
+    @Column(name = "quantidade_dias_entrega",nullable = false)
+    private Integer quantidadeDiasEntrega = 0;
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "data_venda")
+    @Column(name = "data_venda",nullable = false)
     private Date dataVenda;
     @Temporal(TemporalType.DATE)
     @Column(name = "data_entrega")
@@ -55,7 +55,7 @@ public class VendaCompra implements Serializable {
     private FormaPagamento formaPagamento;
 
     @ManyToOne(targetEntity = CupomDesconto.class)
-    @JoinColumn(name = "id_cumpom_desconto", nullable = false,
+    @JoinColumn(name = "id_cumpom_desconto",
     foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "fk_cupom_desconto_compra_venda"))
     private CupomDesconto cupomDesconto;
 

@@ -27,8 +27,12 @@ public class Avaliacao implements Serializable {
     @EqualsAndHashCode.Include
     private Long id;
 
+    @Column(nullable = false)
     private String descricao;
+
+    @Column(nullable = false)
     private Integer nota;
+
     @Temporal(TemporalType.DATE)
     @Column(name = "data_avaliacao")
     private Date dataAvaliacao;
@@ -38,7 +42,7 @@ public class Avaliacao implements Serializable {
     foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "fk_avaliacao_produto"))
     private Produto produto;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Pessoa.class)
     @JoinColumn(name = "id_pessoa", nullable = false,
     foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "fk_avaliacao_pessoa"))
     private Pessoa pessoa;

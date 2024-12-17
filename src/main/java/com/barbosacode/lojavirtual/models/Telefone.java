@@ -3,15 +3,7 @@ package com.barbosacode.lojavirtual.models;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -24,12 +16,15 @@ public class Telefone {
 	@EqualsAndHashCode.Include
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_telefone")
 	private Long id;
+	@Column(nullable = false)
 	private String ddd;
+	@Column(nullable = false)
 	private String numero;
 	@Column(name = "tipo_telefone")
 	private String tipoTelefone;
-	@ManyToOne
-	@JoinColumn(name = "id_pessoa")
+	@ManyToOne(targetEntity = Pessoa.class)
+	@JoinColumn(name = "id_pessoa", nullable = false,
+	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "fk_telefone_pessoa"))
 	private Pessoa pessoaTelefone;
 
 	

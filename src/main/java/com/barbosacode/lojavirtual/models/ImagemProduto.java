@@ -21,9 +21,9 @@ public class ImagemProduto implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_imagem_produto")
     private Long id;
 
-    @Column(name = "imagem_original", columnDefinition = "TEXT")
+    @Column(name = "imagem_original", columnDefinition = "TEXT", nullable = false)
     private String imagemOriginal;
-    @Column(name = "imagem_miniatura", columnDefinition = "TEXT")
+    @Column(name = "imagem_miniatura", columnDefinition = "TEXT", nullable = false)
     private String imagemMiniatura;
 
     @ManyToOne( targetEntity = Produto.class, fetch = FetchType.EAGER )

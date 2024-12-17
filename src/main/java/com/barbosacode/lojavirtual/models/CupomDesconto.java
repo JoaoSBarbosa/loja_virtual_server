@@ -24,13 +24,13 @@ public class CupomDesconto implements Serializable {
     @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_cupom_desconto")
     private Long id;
-    @Column(name = "codigo_desconto")
+    @Column(name = "codigo_desconto", nullable = false)
     private String codigoDesconto;
     @Column(name = "valor_real_desconto")
     private BigDecimal valorRealDesconto;
     @Column(name = "valor_percentual_desconto")
     private BigDecimal valorPorcentualDesconto;
     @Temporal(TemporalType.DATE)
-    @Column(name = "data_limite")
+    @Column(name = "data_limite", nullable = false)
     private Date dataLimite;
 }

@@ -26,17 +26,22 @@ public class ContaPagar implements Serializable {
     @EqualsAndHashCode.Include
     @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "seq_conta_pagar")
     private Long id;
+    @Column(name = "valor_total", nullable = false)
     private BigDecimal valorTotal;
+    @Column(name = "valor_desconto")
     private BigDecimal valorDesconto;
+    @Column(name = "valor_pago")
     private BigDecimal valorPago;
+    @Column(nullable = false)
     private String descricao;
     @Temporal(TemporalType.DATE)
-    @Column(name = "data_vencimento")
+    @Column(name = "data_vencimento", nullable = false)
     private Date dataVencimento;
     @Column(name = "data_pagamento")
     @Temporal(TemporalType.DATE)
     private Date dataPagamento;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private StatusContaPagar status;
 

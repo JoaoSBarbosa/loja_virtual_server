@@ -2,6 +2,7 @@ package com.barbosacode.lojavirtual.models;
 
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -21,15 +22,17 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @Table(name = "pessoa")
 @SequenceGenerator(name = "seq_pessoa", sequenceName = "seq_pessoa", allocationSize = 1, initialValue = 1)
-public class Pessoa {
+public abstract class Pessoa implements Serializable {
 
     @Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_pessoa")
 	private Long id;
 
-    private String nome;
+	@Column(nullable = false)
+	private String nome;
 	@Column(name = "sobrenome")
 	private String sobrenome;
+	@Column(nullable = false)
 	private String email;
 	
 	@OneToMany(mappedBy = "pessoaTelefone")

@@ -29,18 +29,20 @@ public class NotaFiscalCompra implements Serializable {
     @Column(name = "numero_nota")
     private String numeroNota;
 
+    @Column(nullable = false)
     private String serie;
+
     private String descricao;
-    @Column(name = "valor_total")
+    @Column(name = "valor_total", nullable = false)
     private BigDecimal valorTotal;
     @Column(name = "valor_desconto")
     private BigDecimal valorDesconto;
 
-    @Column(name = "valor_icms")
+    @Column(name = "valor_icms", nullable = false)
     private BigDecimal valorIcms;
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "data_compra")
+    @Column(name = "data_compra", nullable = false)
     private Date dataCompra;
 
 
@@ -52,6 +54,9 @@ public class NotaFiscalCompra implements Serializable {
     private Pessoa pessoa;
 
     @OneToOne
-    @JoinColumn(name = "id_conta_pagar", foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "fk_conta_pagar_nfe_compra"))
+    @JoinColumn(
+            name = "id_conta_pagar",
+            nullable = false,
+            foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "fk_conta_pagar_nfe_compra"))
     private ContaPagar contaPagar;
 }

@@ -1,11 +1,6 @@
 package com.barbosacode.lojavirtual.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import lombok.Data;
 
@@ -18,6 +13,6 @@ public class MarcaProduto {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_marca_produto")
 	private Long id;
-	
+	@Column(nullable = false)
 	private String descricao;
 }

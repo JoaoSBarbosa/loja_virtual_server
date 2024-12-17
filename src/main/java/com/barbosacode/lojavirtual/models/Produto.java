@@ -21,23 +21,29 @@ public class Produto implements Serializable {
     @EqualsAndHashCode.Include
     @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "seq_produto")
     private Long id;
+    @Column(nullable = false)
     private String nome;
-    @Column(name = "descricao_curta")
+    @Column(name = "descricao_curta", nullable = false)
     private String descricaoCurta;
-    @Column(name = "descricao_longa", columnDefinition = "TEXT",length = 10000)
+    @Column(name = "descricao_longa", columnDefinition = "TEXT",length = 10000, nullable = false)
     private String descricaoLonga;
-    @Column(name = "valor_compra")
+    @Column(name = "valor_compra", nullable = false)
     private BigDecimal valorCompra = BigDecimal.ZERO;
-    @Column(name = "valor_venda")
+    @Column(name = "valor_venda", nullable = false)
     private BigDecimal valorVenda = BigDecimal.ZERO;
-    @Column(name = "tipo_unidade")
+    @Column(name = "tipo_unidade", nullable = false)
     private String tipoUnidade;
+    @Column(nullable = false)
     private Boolean ativo = Boolean.TRUE;
+    @Column(nullable = false)
     private Double peso;
+    @Column(nullable = false)
     private Double largura;
+    @Column(nullable = false)
     private Double altura;
+    @Column(nullable = false)
     private Double profundidade;
-    @Column(name = "quantidade_estoque_atual")
+    @Column(name = "quantidade_estoque_atual", nullable = false)
     private Integer quantidadeEstoqueAtual = 0;
     @Column(name = "quantidade_alerta_estoque")
     private Integer quantidadeAlertaEstoque = 0;
@@ -60,6 +66,7 @@ public class Produto implements Serializable {
     @ManyToOne(targetEntity = CategoriaProduto.class)
     @JoinColumn(
             name = "id_categoria_produto",
+            nullable = false,
             foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,
             name = "fk_categoria_produto")
     )

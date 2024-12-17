@@ -17,8 +17,11 @@ public class Usuario implements Serializable, UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_usuario")
     private Long id;
+    @Column(nullable = false)
     private String login;
+    @Column(nullable = false)
     private String senha;
+    @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     private Date dataAtualSenha;
 
@@ -29,6 +32,13 @@ public class Usuario implements Serializable, UserDetails {
             joinColumns = @JoinColumn(name = "id_usuario", referencedColumnName = "id", table = "usuario", unique = false, foreignKey = @ForeignKey(name = "usuario_fk", value = ConstraintMode.CONSTRAINT)),
             inverseJoinColumns = @JoinColumn(name = "id_acesso", referencedColumnName = "id", table = "acesso", unique = false, foreignKey = @ForeignKey(name = "acesso_fk", value = ConstraintMode.CONSTRAINT)))
     private List<Acesso> acessos;
+
+
+    @ManyToOne
+    @JoinColumn(name = "id_usuario", nullable = false,
+    foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,
+    name = "fk_acesso_usaurio_pessoa"))
+    private Pessoa pessoa;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

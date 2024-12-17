@@ -1,17 +1,6 @@
 package com.barbosacode.lojavirtual.models;
 
-import javax.persistence.ConstraintMode;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.ForeignKey;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.barbosacode.lojavirtual.enums.TipoEndereco;
 
@@ -29,14 +18,28 @@ public class Endereco {
 	@EqualsAndHashCode.Include
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_endereco")
 	private Long id;
-	
+
+	@Column(nullable = false)
 	private String cep;
+
+	@Column(nullable = false)
 	private String longradouro;
+
+	@Column(nullable = false)
 	private String numero;
+
 	private String complemento;
+
+	@Column(nullable = false)
 	private String bairro;
+
+	@Column(nullable = false)
 	private String uf;
+
+	@Column(nullable = false)
 	private String cidade;
+
+	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private TipoEndereco tipoEndereco;
 	
