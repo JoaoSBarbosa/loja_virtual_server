@@ -35,7 +35,7 @@ public class Usuario implements Serializable, UserDetails {
 
 
     @ManyToOne
-    @JoinColumn(name = "id_usuario", nullable = false,
+    @JoinColumn(name = "id_pessoa", nullable = false,
     foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,
     name = "fk_acesso_usaurio_pessoa"))
     private Pessoa pessoa;
