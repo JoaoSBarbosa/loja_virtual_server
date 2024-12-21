@@ -29,10 +29,10 @@ public abstract class Pessoa implements Serializable {
 	@Column(nullable = false)
 	private String email;
 	
-	@OneToMany(mappedBy = "pessoaTelefone")
+	@OneToMany(mappedBy = "pessoaTelefone", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Telefone> telefones = new ArrayList<>();
 	
-	@OneToMany(mappedBy = "pessoaEndereco")
+	@OneToMany(mappedBy = "pessoaEndereco", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Endereco> enderecos = new ArrayList<>();
 
 

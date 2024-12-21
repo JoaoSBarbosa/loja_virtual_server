@@ -1,9 +1,6 @@
 package com.barbosacode.lojavirtual.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,8 +8,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
+@PrimaryKeyJoinColumn(name = "id")
 @Table(name = "pessoa_juridica")
-@SequenceGenerator(name="seq_pessoa_juridica", allocationSize = 1,initialValue = 1)
 public class PessoaJuridica extends Pessoa{
 
 	@Column(nullable = false)
