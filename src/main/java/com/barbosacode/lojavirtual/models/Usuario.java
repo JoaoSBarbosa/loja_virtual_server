@@ -28,9 +28,31 @@ public class Usuario implements Serializable, UserDetails {
     @OneToMany(fetch = FetchType.LAZY) // Carrega os acessos apenas quando necessario
     @JoinTable(
             name = "usuario_acesso",
-            uniqueConstraints = @UniqueConstraint(columnNames = {"id_usuario", "id_acesso"}, name = "unique_acesso_user"),
-            joinColumns = @JoinColumn(name = "id_usuario", referencedColumnName = "id", table = "usuario", unique = false, foreignKey = @ForeignKey(name = "usuario_fk", value = ConstraintMode.CONSTRAINT)),
-            inverseJoinColumns = @JoinColumn(name = "id_acesso", referencedColumnName = "id", table = "acesso", unique = false, foreignKey = @ForeignKey(name = "acesso_fk", value = ConstraintMode.CONSTRAINT)))
+            uniqueConstraints = @UniqueConstraint(
+                    columnNames = {"id_usuario", "id_acesso"},
+                    name = "unique_acesso_user"
+            ),
+            joinColumns = @JoinColumn(
+                    name = "id_usuario",
+                    referencedColumnName = "id",
+                    table = "usuario",
+                    unique = false,
+                    foreignKey = @ForeignKey(
+                            name = "usuario_fk",
+                            value = ConstraintMode.CONSTRAINT
+                    )
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "id_acesso",
+                    referencedColumnName = "id",
+                    table = "acesso",
+                    unique = false,
+                    foreignKey = @ForeignKey(
+                            name = "acesso_fk",
+                            value = ConstraintMode.CONSTRAINT
+                    )
+            )
+    )
     private List<Acesso> acessos;
 
 

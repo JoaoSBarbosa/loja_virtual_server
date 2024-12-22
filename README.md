@@ -98,6 +98,41 @@ FOR EACH ROW EXECUTE FUNCTION public.validachavepessoa();
 
 ```
 
+### Consultas e Joins
+
+```postgresql
+SELECT 
+	p.id AS "Código",
+	p.descricao_curta AS "Descrição",
+	p.nome AS "Produto",
+	m.descricao AS "Marca",
+	c.descricao AS "Categoria"
+FROM produto p
+INNER JOIN marca_produto m ON p.id_marca_produto = m.id
+INNER JOIN categoria_produto c ON p.id_categoria_produto = c.id;
+```
+
+```postgresql
+1	"Smartphone com 128GB"	"Smartphone XPro"	"Marca XTech"	"Smartphones e Acessórios"
+2	"Notebook i7 com SSD"	"Notebook Turbo 15"	"TurboTech"	"Notebooks e Computadores"
+3	"Fone de Ouvido Bluetooth"	"Fone Premium"	"PremiumSound"	"Fones de Ouvido"
+4	"Monitor 4K UHD"	"Monitor Ultra 27"""	"UltraVision"	"Monitores e Displays"
+5	"Teclado Mecânico RGB"	"Teclado Gamer Pro"	"GamerPro"	"Teclados e Periféricos"
+6	"Tablet com Caneta"	"Tablet Max 10"	"MaxTech"	"Tablets e Dispositivos Móveis"
+7	"Smartwatch com GPS"	"Smartwatch Fit"	"FitWear"	"Smartwatches e Wearables"
+8	"Carregador Turbo USB-C"	"Carregador Turbo"	"ChargeMaster"	"Carregadores e Cabos"
+9	"Câmera de Ação 4K"	"Action Cam Go"	"ActionVision"	"Câmeras e Equipamentos de Vídeo"
+10	"Cabo HDMI 2.1"	"Cabo HDMI Premium"	"CablePro"	"Cabos e Conectores"
+```
+
+| Código (pk) | Descrição                | Produto           | Marca        | Categoria                |
+| ----------- | ------------------------ | ----------------- | ------------ | ------------------------ |
+| 1           | Smartphone com 128GB     | Smartphone XPro   | Marca XTech  | Smartphones e Acessórios |
+| 2           | Notebook i7 com SSD      | Notebook Turbo 15 | TurboTech    | Notebooks e Computadores |
+| 3           | Fone de Ouvido Bluetooth | Fone Premium      | PremiumSound | Fones de Ouvido          |
+
+
+
 ## Pré-requisitos
 
 - **Java 11 ou superior**
