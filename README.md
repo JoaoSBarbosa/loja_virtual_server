@@ -74,6 +74,30 @@ O sistema é composto pelas seguintes entidades principais:
 
 Para detalhes completos sobre o diagrama de classes, veja a imagem acima.
 
+## SQL
+
+Devido à estrutura da entidade abstrata `Pessoa`, triggers foram configurados para garantir a integridade referencial ao associar pessoas físicas ou jurídicas.
+
+**Exemplo de Trigger**:
+
+```postgresql
+CREATE OR REPLACE FUNCTION public.validachavepessoa()
+RETURNS trigger AS $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pessoa_fisica WHERE id = NEW.id_pessoa) AND 
+       NOT EXISTS (SELECT 1 FROM pessoa_juridica WHERE id = NEW.id_pessoa) THEN
+        RAISE EXCEPTION 'Chave estrangeira inválida: Pessoa não encontrada';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER validachavepessoa
+BEFORE INSERT OR UPDATE ON public.avaliacao
+FOR EACH ROW EXECUTE FUNCTION public.validachavepessoa();
+
+```
+
 ## Pré-requisitos
 
 - **Java 11 ou superior**
