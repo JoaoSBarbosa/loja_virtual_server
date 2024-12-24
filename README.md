@@ -81,22 +81,33 @@ Devido à estrutura da entidade abstrata `Pessoa`, triggers foram configurados p
 **Exemplo de Trigger**:
 
 ```postgresql
-CREATE OR REPLACE FUNCTION public.validachavepessoa()
-RETURNS trigger AS $$
-BEGIN
-    IF NOT EXISTS (SELECT 1 FROM pessoa_fisica WHERE id = NEW.id_pessoa) AND 
-       NOT EXISTS (SELECT 1 FROM pessoa_juridica WHERE id = NEW.id_pessoa) THEN
-        RAISE EXCEPTION 'Chave estrangeira inválida: Pessoa não encontrada';
-    END IF;
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER validachavepessoa
-BEFORE INSERT OR UPDATE ON public.avaliacao
-FOR EACH ROW EXECUTE FUNCTION public.validachavepessoa();
-
+CREATE OR REPLACE FUNCTION validachavepessoa()
+	returns trigger
+	language plpgsql
+	as $$
+	declare existe integer;
+	begin
+		existe = (SELECT COUNT(1) FROM pessoa_fisica WHERE id = NEW.id_pessoa);
+		if(existe <= 0) then
+		existe = (SELECT COUNT(1) FROM pessoa_juridica WHERE id = NEW.id_pessoa);
+		if(existe <= 0) then
+            RAISE EXCEPTION 'Não foi encontrado o ID e PK da pessoa para realizar a associação do cadastro';
+		end if;
+		end if;
+	RETURN NEW;
+	end;
+	$$
 ```
+
+```postgresql
+CREATE OR REPLACE TRIGGER validachavepessoaavaliacao
+    BEFORE INSERT OR UPDATE 
+    ON public.avaliacao
+    FOR EACH ROW
+    EXECUTE FUNCTION public.validachavepessoa();
+```
+
+
 
 ### Consultas e Joins
 
