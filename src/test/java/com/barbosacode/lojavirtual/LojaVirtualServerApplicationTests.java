@@ -1,6 +1,7 @@
 package com.barbosacode.lojavirtual;
 
 import com.barbosacode.lojavirtual.controllers.AcessoController;
+import com.barbosacode.lojavirtual.dto.CustomResponse;
 import com.barbosacode.lojavirtual.models.Acesso;
 import com.barbosacode.lojavirtual.repositories.AcessoRepository;
 import com.barbosacode.lojavirtual.services.AcessoService;
@@ -23,7 +24,7 @@ class LojaVirtualServerApplicationTests {
 		Acesso acesso = new Acesso();
 		acesso.setDescricao("ROLE_TECH");
 //		acesso = acessoService.salvar(acesso);
-		ResponseEntity<Acesso> acesso1 = acessoController.salvarAcesso(acesso);
+		ResponseEntity<CustomResponse<Acesso>> acesso1 = acessoController.salvarAcesso(acesso);
 		System.out.println("Acesso salvo com sucesso: " + ResponseEntity.status(acesso1.getStatusCode()).body(acesso1));
 	}
 

@@ -1,11 +1,14 @@
 package com.barbosacode.lojavirtual.controllers;
 
+import com.barbosacode.lojavirtual.dto.CustomResponse;
 import com.barbosacode.lojavirtual.models.Acesso;
 import com.barbosacode.lojavirtual.services.AcessoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -15,21 +18,35 @@ public class AcessoController {
     @Autowired
     AcessoService acessoService;
 
-    @PostMapping
-    public ResponseEntity<Acesso> salvarAcesso(@RequestBody Acesso acesso) {
-        acesso = acessoService.salvar(acesso);
-        return ResponseEntity.ok(acesso);
+    @ResponseBody
+    @PostMapping("**/salvar")
+    public ResponseEntity<CustomResponse<Acesso>> salvarAcesso(@RequestBody Acesso acesso) {
+        CustomResponse<Acesso> response = acessoService.salvar(acesso);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @GetMapping
     public ResponseEntity<List<Acesso>> listarAcessos() {
         List<Acesso> acessos = acessoService.listarTodos();
-        return ResponseEntity.ok(acessos);
+
+        return new ResponseEntity<List<Acesso>>(acessos, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Acesso> buscarPorId(@PathVariable Long id) {
-        Acesso acesso = acessoService.buscarPorId(id);
+    public ResponseEntity<CustomResponse<Acesso>> buscarPorId(@PathVariable Long id) {
+        CustomResponse<Acesso> acesso = acessoService.buscarPorId(id);
         return ResponseEntity.ok(acesso);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<CustomResponse<Acesso>> deletarAcesso(@PathVariable Long id) {
+        CustomResponse<Acesso> acesso = acessoService.deletarPorId(id);
+        return ResponseEntity.ok(acesso);
+    }
+
+    @DeleteMapping("/all")
+    public ResponseEntity<CustomResponse<Acesso>> deletarAcessos() {
+        CustomResponse<Acesso>  retorno = acessoService.deletarTodos();
+        return ResponseEntity.ok(retorno);
     }
 }
