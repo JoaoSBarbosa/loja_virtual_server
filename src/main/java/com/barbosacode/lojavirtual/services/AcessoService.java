@@ -1,6 +1,7 @@
 package com.barbosacode.lojavirtual.services;
 
 import com.barbosacode.lojavirtual.dto.CustomResponse;
+import com.barbosacode.lojavirtual.exceptions.ControllerNotFoundException;
 import com.barbosacode.lojavirtual.models.Acesso;
 import com.barbosacode.lojavirtual.repositories.AcessoRepository;
 import com.barbosacode.lojavirtual.utils.Util;
@@ -43,7 +44,7 @@ public class AcessoService {
     @Transactional(readOnly = true)
     public CustomResponse<Acesso> buscarPorId(Long id) {
 
-        Acesso acesso = acessoRepository.findById(id).orElseThrow(()-> new RuntimeException("Não foi localizado registro de Acessos com o id informado"));
+        Acesso acesso = acessoRepository.findById(id).orElseThrow(()-> new ControllerNotFoundException("Não foi localizado registro de Acessos com o id informado"));
 
         CustomResponse<Acesso> response = new CustomResponse<>();
         response.setMessage("Acesso localizado com sucesso!");
@@ -56,7 +57,7 @@ public class AcessoService {
 
     @Transactional
     public  CustomResponse<Acesso>  deletarPorId(Long id) {
-        Acesso acesso = acessoRepository.findById(id).orElseThrow(() -> new RuntimeException("Erro ao deletar o acesso"));
+        Acesso acesso = acessoRepository.findById(id).orElseThrow(() -> new ControllerNotFoundException("Erro ao deletar o acesso"));
         acessoRepository.deleteById(acesso.getId());
         CustomResponse<Acesso> response = new CustomResponse<>();
         response.setMessage("Acesso delato com sucesso!");
@@ -79,7 +80,7 @@ public class AcessoService {
             response.setData(null);
             return  response;
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao deletar o acesso", e);
+            throw new ControllerNotFoundException("Erro ao deletar o acesso");
         }
     }
 }
