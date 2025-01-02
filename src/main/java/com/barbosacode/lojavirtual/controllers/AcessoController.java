@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -29,7 +27,7 @@ public class AcessoController {
     public ResponseEntity<List<Acesso>> listarAcessos() {
         List<Acesso> acessos = acessoService.listarTodos();
 
-        return new ResponseEntity<List<Acesso>>(acessos, HttpStatus.OK);
+        return new ResponseEntity<>(acessos, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
