@@ -14,7 +14,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "acesso")
 @SequenceGenerator(name = "seq_acesso", sequenceName = "seq_acesso", allocationSize = 1, initialValue = 1)
-public class Acesso implements GrantedAuthority{
+public class gitAcesso implements GrantedAuthority{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_acesso")

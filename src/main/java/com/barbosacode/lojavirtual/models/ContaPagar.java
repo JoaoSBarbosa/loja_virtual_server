@@ -1,29 +1,22 @@
 package com.barbosacode.lojavirtual.models;
-
 import com.barbosacode.lojavirtual.enums.StatusContaPagar;
-import lombok.*;
-
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 
-@Getter
-@Setter
-@ToString
+
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
 @Table(name = "conta_pagar")
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @SequenceGenerator(name = "seq_conta_pagar", sequenceName = "seq_conta_pagar", allocationSize = 1, initialValue = 1)
 public class ContaPagar implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
-    @EqualsAndHashCode.Include
+
     @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "seq_conta_pagar")
     private Long id;
     @Column(name = "valor_total", nullable = false)
@@ -66,6 +59,146 @@ public class ContaPagar implements Serializable {
             foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "conta_pagar_forma_pagamento_fk"))
     private FormaPagamento formaPagamento;
 
+    public ContaPagar() {}
 
+    public ContaPagar(
+            Long id,
+            BigDecimal valorTotal,
+            BigDecimal valorDesconto,
+            BigDecimal valorPago,
+            String descricao,
+            Date dataVencimento,
+            Date dataPagamento,
+            StatusContaPagar status,
+            Pessoa pessoa,
+            Pessoa fornecedor,
+            FormaPagamento formaPagamento) {
+        this.id = id;
+        this.valorTotal = valorTotal;
+        this.valorDesconto = valorDesconto;
+        this.valorPago = valorPago;
+        this.descricao = descricao;
+        this.dataVencimento = dataVencimento;
+        this.dataPagamento = dataPagamento;
+        this.status = status;
+        this.pessoa = pessoa;
+        this.fornecedor = fornecedor;
+        this.formaPagamento = formaPagamento;
+    }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public BigDecimal getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(BigDecimal valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+
+    public BigDecimal getValorDesconto() {
+        return valorDesconto;
+    }
+
+    public void setValorDesconto(BigDecimal valorDesconto) {
+        this.valorDesconto = valorDesconto;
+    }
+
+    public BigDecimal getValorPago() {
+        return valorPago;
+    }
+
+    public void setValorPago(BigDecimal valorPago) {
+        this.valorPago = valorPago;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public Date getDataVencimento() {
+        return dataVencimento;
+    }
+
+    public void setDataVencimento(Date dataVencimento) {
+        this.dataVencimento = dataVencimento;
+    }
+
+    public Date getDataPagamento() {
+        return dataPagamento;
+    }
+
+    public void setDataPagamento(Date dataPagamento) {
+        this.dataPagamento = dataPagamento;
+    }
+
+    public StatusContaPagar getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusContaPagar status) {
+        this.status = status;
+    }
+
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
+
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
+
+    public Pessoa getFornecedor() {
+        return fornecedor;
+    }
+
+    public void setFornecedor(Pessoa fornecedor) {
+        this.fornecedor = fornecedor;
+    }
+
+    public FormaPagamento getFormaPagamento() {
+        return formaPagamento;
+    }
+
+    public void setFormaPagamento(FormaPagamento formaPagamento) {
+        this.formaPagamento = formaPagamento;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof ContaPagar that)) return false;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+
+    @Override
+    public String toString() {
+        return "ContaPagar{" +
+                "id=" + id +
+                ", valorTotal=" + valorTotal +
+                ", valorDesconto=" + valorDesconto +
+                ", valorPago=" + valorPago +
+                ", descricao='" + descricao + '\'' +
+                ", dataVencimento=" + dataVencimento +
+                ", dataPagamento=" + dataPagamento +
+                ", status=" + status +
+                ", pessoa=" + pessoa +
+                ", fornecedor=" + fornecedor +
+                ", formaPagamento=" + formaPagamento +
+                '}';
+    }
 }

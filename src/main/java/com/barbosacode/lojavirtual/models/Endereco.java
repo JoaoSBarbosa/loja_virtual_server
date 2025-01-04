@@ -1,21 +1,15 @@
 package com.barbosacode.lojavirtual.models;
-
 import javax.persistence.*;
-
 import com.barbosacode.lojavirtual.enums.TipoEndereco;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import java.util.Objects;
 
-@Data
 @Entity
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Table(name = "endereco")
 @SequenceGenerator(name = "seq_endereco",sequenceName = "seq_endereco",allocationSize = 1,initialValue = 1)
 public class Endereco {
 
 	@Id
-	@EqualsAndHashCode.Include
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_endereco")
 	private Long id;
 
@@ -54,4 +48,125 @@ public class Endereco {
 	)
 	private Pessoa pessoaEndereco; // Representa a associação entre Endereco e Pessoa.
 
+	public Endereco(){}
+
+	public Endereco(Long id, String cep, String longradouro, String numero, String complemento, String bairro, String uf, String cidade, TipoEndereco tipoEndereco, Pessoa pessoaEndereco) {
+		this.id = id;
+		this.cep = cep;
+		this.longradouro = longradouro;
+		this.numero = numero;
+		this.complemento = complemento;
+		this.bairro = bairro;
+		this.uf = uf;
+		this.cidade = cidade;
+		this.tipoEndereco = tipoEndereco;
+		this.pessoaEndereco = pessoaEndereco;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getCep() {
+		return cep;
+	}
+
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
+
+	public String getLongradouro() {
+		return longradouro;
+	}
+
+	public void setLongradouro(String longradouro) {
+		this.longradouro = longradouro;
+	}
+
+	public String getNumero() {
+		return numero;
+	}
+
+	public void setNumero(String numero) {
+		this.numero = numero;
+	}
+
+	public String getComplemento() {
+		return complemento;
+	}
+
+	public void setComplemento(String complemento) {
+		this.complemento = complemento;
+	}
+
+	public String getBairro() {
+		return bairro;
+	}
+
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
+	}
+
+	public String getUf() {
+		return uf;
+	}
+
+	public void setUf(String uf) {
+		this.uf = uf;
+	}
+
+	public String getCidade() {
+		return cidade;
+	}
+
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
+	}
+
+	public TipoEndereco getTipoEndereco() {
+		return tipoEndereco;
+	}
+
+	public void setTipoEndereco(TipoEndereco tipoEndereco) {
+		this.tipoEndereco = tipoEndereco;
+	}
+
+	public Pessoa getPessoaEndereco() {
+		return pessoaEndereco;
+	}
+
+	public void setPessoaEndereco(Pessoa pessoaEndereco) {
+		this.pessoaEndereco = pessoaEndereco;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof Endereco endereco)) return false;
+        return Objects.equals(id, endereco.id);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(id);
+	}
+
+	@Override
+	public String toString() {
+		return "Endereco{" +
+				"id=" + id +
+				", cep='" + cep + '\'' +
+				", longradouro='" + longradouro + '\'' +
+				", numero='" + numero + '\'' +
+				", complemento='" + complemento + '\'' +
+				", bairro='" + bairro + '\'' +
+				", uf='" + uf + '\'' +
+				", cidade='" + cidade + '\'' +
+				", tipoEndereco=" + tipoEndereco +
+				", pessoaEndereco=" + pessoaEndereco +
+				'}';
+	}
 }

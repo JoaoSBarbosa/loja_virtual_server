@@ -1,21 +1,12 @@
 package com.barbosacode.lojavirtual.models;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
-@Data
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
 @Table(name = "avaliacao")
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @SequenceGenerator(name = "seq_avaliacao", sequenceName = "seq_avaliacao", allocationSize = 1, initialValue = 1)
 public class Avaliacao implements Serializable {
 
@@ -24,7 +15,6 @@ public class Avaliacao implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_avaliacao")
-    @EqualsAndHashCode.Include
     private Long id;
 
     @Column(nullable = false)
@@ -47,5 +37,85 @@ public class Avaliacao implements Serializable {
     foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "fk_avaliacao_pessoa"))
     private Pessoa pessoa;
 
+    public Avaliacao() {}
 
+    public Avaliacao(Long id, String descricao, Integer nota, Date dataAvaliacao, Produto produto, Pessoa pessoa) {
+        this.id = id;
+        this.descricao = descricao;
+        this.nota = nota;
+        this.dataAvaliacao = dataAvaliacao;
+        this.produto = produto;
+        this.pessoa = pessoa;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public Integer getNota() {
+        return nota;
+    }
+
+    public void setNota(Integer nota) {
+        this.nota = nota;
+    }
+
+    public Date getDataAvaliacao() {
+        return dataAvaliacao;
+    }
+
+    public void setDataAvaliacao(Date dataAvaliacao) {
+        this.dataAvaliacao = dataAvaliacao;
+    }
+
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
+    }
+
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
+
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Avaliacao avaliacao)) return false;
+        return Objects.equals(id, avaliacao.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Avaliacao{" +
+                "id=" + id +
+                ", descricao='" + descricao + '\'' +
+                ", nota=" + nota +
+                ", dataAvaliacao=" + dataAvaliacao +
+                ", produto=" + produto +
+                ", pessoa=" + pessoa +
+                '}';
+    }
 }

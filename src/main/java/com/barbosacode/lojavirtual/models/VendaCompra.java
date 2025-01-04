@@ -1,22 +1,13 @@
 package com.barbosacode.lojavirtual.models;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 
-@Data
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "venda_compra")
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @SequenceGenerator(name = "seq_venda_compra", sequenceName = "seq_venda_compra", allocationSize = 1, initialValue = 1)
 public class VendaCompra implements Serializable {
 
@@ -24,7 +15,6 @@ public class VendaCompra implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_venda_compra")
     private Long id;
 
@@ -76,4 +66,157 @@ public class VendaCompra implements Serializable {
 
     @OneToOne(mappedBy = "vendaCompra", cascade = CascadeType.ALL, orphanRemoval = true)
     private NotaFiscalVenda notaFiscalVenda;
+
+
+    public VendaCompra() {}
+
+    public VendaCompra(Long id, NotaFiscalVenda notaFiscalVenda, Endereco enderecoEntrega, Endereco enderecoCobranca, CupomDesconto cupomDesconto, FormaPagamento formaPagamento, Pessoa pessoa, Date dataEntrega, Date dataVenda, Integer quantidadeDiasEntrega, BigDecimal valorFrete, BigDecimal valorDesconto, BigDecimal valorTotal) {
+        this.id = id;
+        this.notaFiscalVenda = notaFiscalVenda;
+        this.enderecoEntrega = enderecoEntrega;
+        this.enderecoCobranca = enderecoCobranca;
+        this.cupomDesconto = cupomDesconto;
+        this.formaPagamento = formaPagamento;
+        this.pessoa = pessoa;
+        this.dataEntrega = dataEntrega;
+        this.dataVenda = dataVenda;
+        this.quantidadeDiasEntrega = quantidadeDiasEntrega;
+        this.valorFrete = valorFrete;
+        this.valorDesconto = valorDesconto;
+        this.valorTotal = valorTotal;
+    }
+
+    public Endereco getEnderecoCobranca() {
+        return enderecoCobranca;
+    }
+
+    public void setEnderecoCobranca(Endereco enderecoCobranca) {
+        this.enderecoCobranca = enderecoCobranca;
+    }
+
+    public Endereco getEnderecoEntrega() {
+        return enderecoEntrega;
+    }
+
+    public void setEnderecoEntrega(Endereco enderecoEntrega) {
+        this.enderecoEntrega = enderecoEntrega;
+    }
+
+    public NotaFiscalVenda getNotaFiscalVenda() {
+        return notaFiscalVenda;
+    }
+
+    public void setNotaFiscalVenda(NotaFiscalVenda notaFiscalVenda) {
+        this.notaFiscalVenda = notaFiscalVenda;
+    }
+
+    public CupomDesconto getCupomDesconto() {
+        return cupomDesconto;
+    }
+
+    public void setCupomDesconto(CupomDesconto cupomDesconto) {
+        this.cupomDesconto = cupomDesconto;
+    }
+
+    public FormaPagamento getFormaPagamento() {
+        return formaPagamento;
+    }
+
+    public void setFormaPagamento(FormaPagamento formaPagamento) {
+        this.formaPagamento = formaPagamento;
+    }
+
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
+
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
+
+    public Date getDataVenda() {
+        return dataVenda;
+    }
+
+    public void setDataVenda(Date dataVenda) {
+        this.dataVenda = dataVenda;
+    }
+
+    public Date getDataEntrega() {
+        return dataEntrega;
+    }
+
+    public void setDataEntrega(Date dataEntrega) {
+        this.dataEntrega = dataEntrega;
+    }
+
+    public Integer getQuantidadeDiasEntrega() {
+        return quantidadeDiasEntrega;
+    }
+
+    public void setQuantidadeDiasEntrega(Integer quantidadeDiasEntrega) {
+        this.quantidadeDiasEntrega = quantidadeDiasEntrega;
+    }
+
+    public BigDecimal getValorFrete() {
+        return valorFrete;
+    }
+
+    public void setValorFrete(BigDecimal valorFrete) {
+        this.valorFrete = valorFrete;
+    }
+
+    public BigDecimal getValorDesconto() {
+        return valorDesconto;
+    }
+
+    public void setValorDesconto(BigDecimal valorDesconto) {
+        this.valorDesconto = valorDesconto;
+    }
+
+    public BigDecimal getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(BigDecimal valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof VendaCompra that)) return false;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+
+    @Override
+    public String toString() {
+        return "VendaCompra{" +
+                "id=" + id +
+                ", valorTotal=" + valorTotal +
+                ", valorDesconto=" + valorDesconto +
+                ", valorFrete=" + valorFrete +
+                ", quantidadeDiasEntrega=" + quantidadeDiasEntrega +
+                ", dataVenda=" + dataVenda +
+                ", dataEntrega=" + dataEntrega +
+                ", pessoa=" + pessoa +
+                ", formaPagamento=" + formaPagamento +
+                ", cupomDesconto=" + cupomDesconto +
+                ", enderecoEntrega=" + enderecoEntrega +
+                ", enderecoCobranca=" + enderecoCobranca +
+                ", notaFiscalVenda=" + notaFiscalVenda +
+                '}';
+    }
 }
