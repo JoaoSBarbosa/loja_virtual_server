@@ -7,14 +7,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Objects;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Table(name = "acesso")
 @SequenceGenerator(name = "seq_acesso", sequenceName = "seq_acesso", allocationSize = 1, initialValue = 1)
-public class gitAcesso implements GrantedAuthority{
+public class Acesso implements GrantedAuthority{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_acesso")
@@ -60,9 +63,12 @@ public class gitAcesso implements GrantedAuthority{
 
 	@Override
 	public boolean equals(Object o) {
-		if (!(o instanceof Acesso acesso)) return false;
-        return Objects.equals(id, acesso.id);
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Acesso acesso = (Acesso) o;
+		return Objects.equals(id, acesso.id);
 	}
+
 
 	@Override
 	public int hashCode() {
