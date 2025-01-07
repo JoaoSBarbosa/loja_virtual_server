@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -26,7 +27,8 @@ public class Acesso implements GrantedAuthority{
 	@Column(nullable = false)
 	private String descricao;
 	
-	
+
+	@JsonIgnore
 	@Override
 	public String getAuthority() {
 		return this.descricao;
