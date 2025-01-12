@@ -1,6 +1,7 @@
 package com.barbosacode.lojavirtual;
 
 import com.barbosacode.lojavirtual.controllers.AcessoController;
+import com.barbosacode.lojavirtual.dto.AcessoDTO;
 import com.barbosacode.lojavirtual.models.Acesso;
 import com.barbosacode.lojavirtual.repositories.AcessoRepository;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -18,6 +19,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -69,6 +72,80 @@ public class LojaVirtualServerApplicationTests {
         Assertions.assertEquals("ROLE_MOCK5", entity.getDescricao());
     }
 
+
+    @Test
+    public void deveCadastrarAcessoEBuscarAcessoPorDescricaoViaAPI() throws JsonParseException, Exception {
+        DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.context);
+        MockMvc mockMvc = builder.build();
+
+        Acesso acesso = new Acesso("ROLE_MOCK_DESCRICAO");
+
+        ObjectMapper jsonMapper = new ObjectMapper();
+
+        // Envia uma requisição POST para salvar um Acesso
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.post("/acessos/salvar")
+                .content(jsonMapper.writeValueAsString(acesso))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+        );
+        Acesso returnApi = jsonMapper.readValue(resultActions.andReturn().getResponse().getContentAsString(), Acesso.class);
+
+        // Envia uma requisição GET para buscar o Acesso por descrição
+        ResultActions retornoApi = mockMvc.perform(MockMvcRequestBuilders.get("/acessos/description?desc=" + returnApi.getDescricao()));
+
+        // Desserializa a resposta como uma lista de AcessoDTO
+        List<AcessoDTO> acessos = jsonMapper.readValue(
+                retornoApi.andReturn().getResponse().getContentAsString(),
+                jsonMapper.getTypeFactory().constructCollectionType(List.class, AcessoDTO.class)
+        );
+
+        // Imprime os resultados
+        acessos.forEach(ac -> {
+            try {
+                System.out.println("Retorno - GET DESCRIPTION: " + jsonMapper.writeValueAsString(ac));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+
+//    @Test
+//    public void deveCadastrarAcessoEBuscarAcessoPorDescricaoViaAPI() throws JsonParseException, Exception {
+//        DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.context);
+//        MockMvc mockMvc = builder.build();
+//
+//        Acesso acesso = new Acesso("ROLE_MOCK_DESCRICAO");
+//
+//        ObjectMapper jsonMapper = new ObjectMapper();
+//
+//        // Envia uma requisição POST para salvar um Acesso
+//        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.post("/acessos/salvar")
+//                .content(jsonMapper.writeValueAsString(acesso))
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .accept(MediaType.APPLICATION_JSON)
+//        );
+//        Acesso returnApi = jsonMapper.readValue(resultActions.andReturn().getResponse().getContentAsString(), Acesso.class);
+//        // Envia uma requisição GET para buscar o Acesso por descrição
+//        ResultActions retornoApi = mockMvc.perform(MockMvcRequestBuilders.get("/acessos/description?desc=" + returnApi.getDescricao()));
+//
+//        // Desserializa a resposta como uma lista de Acesso
+//        List<AcessoDTO> acessos = jsonMapper.readValue(retornoApi.andReturn()
+//                .getResponse()
+//                .getContentAsString(),
+//                jsonMapper.getTypeFactory()
+//                        .constructType(List.class, AcessoDTO.class));
+//
+//
+//        // Imprime os resultados
+//        acessos.forEach(ac -> {
+//            try {
+//                System.out.println("Retorno - GET DESCRIPTION: " + jsonMapper.writeValueAsString(ac));
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        });
+//    }
 
     @Test
     public void deveExcluirAcessoViaAPI() throws JsonParseException, Exception {
