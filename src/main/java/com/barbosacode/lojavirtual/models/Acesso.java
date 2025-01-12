@@ -36,6 +36,9 @@ public class Acesso implements GrantedAuthority{
 
 	public Acesso(){}
 
+	public Acesso(String descricao) {
+		this.descricao = descricao;
+	}
 
 	public Acesso(Long id, String descricao) {
 		this.id = id;

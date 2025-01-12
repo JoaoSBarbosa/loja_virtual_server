@@ -17,12 +17,14 @@ public class AcessoController {
     @Autowired
     AcessoService acessoService;
 
+
     @ResponseBody
     @PostMapping("**/salvar")
-    public ResponseEntity<CustomResponse<Acesso>> salvarAcesso(@RequestBody Acesso acesso) {
-        CustomResponse<Acesso> response = acessoService.salvar(acesso);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    public ResponseEntity<Acesso> salvarAcesso(@RequestBody Acesso acesso) {
+        acesso = acessoService.salvar(acesso);
+        return new ResponseEntity<>(acesso, HttpStatus.CREATED);
     }
+
 
     @GetMapping
     public ResponseEntity<List<Acesso>> listarAcessos() {
@@ -31,17 +33,19 @@ public class AcessoController {
         return new ResponseEntity<>(acessos, HttpStatus.OK);
     }
 
+
+    @DeleteMapping("/all")
+    public ResponseEntity<String> deletarTodosAcessos() {
+        String responseMesage = acessoService.deletarTodos();
+        return ResponseEntity.ok(responseMesage);
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<CustomResponse<Acesso>> buscarPorId(@PathVariable Long id) {
-        CustomResponse<Acesso> acesso = acessoService.buscarPorId(id);
+    public ResponseEntity<Acesso> buscarPorId(@PathVariable Long id) {
+        Acesso acesso = acessoService.buscarPorId(id);
         return ResponseEntity.ok(acesso);
     }
 
-    @DeleteMapping("/{id}/custom")
-    public ResponseEntity<CustomResponse<Acesso>> deletarAcessoCustom(@PathVariable Long id) {
-        CustomResponse<Acesso> acesso = acessoService.deletarPorIdCustom(id);
-        return ResponseEntity.ok(acesso);
-    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletarAcesso(@PathVariable Long id) {
@@ -49,9 +53,31 @@ public class AcessoController {
         return ResponseEntity.ok(returnMessage);
     }
 
-    @DeleteMapping("/all")
-    public ResponseEntity<CustomResponse<Acesso>> deletarAcessos() {
-        CustomResponse<Acesso> retorno = acessoService.deletarTodos();
+
+    //    Retorno com custom
+    @ResponseBody
+    @PostMapping("**/salvar/custom")
+    public ResponseEntity<CustomResponse<Acesso>> salvarAcessoCustom(@RequestBody Acesso acesso) {
+        CustomResponse<Acesso> response = acessoService.salvarCustom(acesso);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{id}/custom")
+    public ResponseEntity<CustomResponse<Acesso>> buscarPorIdCustom(@PathVariable Long id) {
+        CustomResponse<Acesso> acesso = acessoService.buscarPorIdCustom(id);
+        return ResponseEntity.ok(acesso);
+    }
+
+
+    @DeleteMapping("/{id}/custom")
+    public ResponseEntity<CustomResponse<Acesso>> deletarAcessoCustom(@PathVariable Long id) {
+        CustomResponse<Acesso> acesso = acessoService.deletarPorIdCustom(id);
+        return ResponseEntity.ok(acesso);
+    }
+
+    @DeleteMapping("/all/custom")
+    public ResponseEntity<CustomResponse<Acesso>> deletarTodosAcessosCustom() {
+        CustomResponse<Acesso> retorno = acessoService.deletarTodosCustom();
         return ResponseEntity.ok(retorno);
     }
 }
