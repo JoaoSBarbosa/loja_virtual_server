@@ -70,6 +70,24 @@ public class LojaVirtualServerApplicationTests {
     }
 
 
+    public void testarDeletarAcessoAPI() throws JsonParseException, Exception {
+        DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.context);
+        MockMvc mockMvc = builder.build();
+        Acesso acesso = new Acesso();
+        acesso.setDescricao("ROLE_MOCK5");
+
+        acesso = acessoRepository.saveAndFlush(acesso);
+
+        ObjectMapper jsonMapper = new ObjectMapper();
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.delete("/acessos/{id}", acesso.getId()));
+
+        String jsonResponse = resultActions.andReturn().getResponse().getContentAsString();
+        System.out.println("Retorno: " + jsonResponse);
+
+
+    }
+
+
     @BeforeEach
     void setUp() {
         acesso = new Acesso();
