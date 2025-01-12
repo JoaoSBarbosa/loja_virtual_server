@@ -20,7 +20,8 @@ public class AcessoService {
     @Autowired
     AcessoRepository acessoRepository;
 
-    @Autowired HttpServletRequest httpServletRequest;
+    @Autowired
+    HttpServletRequest httpServletRequest;
 
     @Transactional
     public CustomResponse<Acesso> salvar(Acesso acesso) {
@@ -33,7 +34,7 @@ public class AcessoService {
         response.setTimestamp(Util.getLocalTime());
         response.setStatus(HttpStatus.CREATED.value());
         response.setData(acesso);
-        return  response;
+        return response;
     }
 
     @Transactional(readOnly = true)
@@ -44,7 +45,7 @@ public class AcessoService {
     @Transactional(readOnly = true)
     public CustomResponse<Acesso> buscarPorId(Long id) {
 
-        Acesso acesso = acessoRepository.findById(id).orElseThrow(()-> new ControllerNotFoundException("Não foi localizado registro de Acessos com o id informado"));
+        Acesso acesso = acessoRepository.findById(id).orElseThrow(() -> new ControllerNotFoundException("Não foi localizado registro de Acessos com o id informado"));
 
         CustomResponse<Acesso> response = new CustomResponse<>();
         response.setMessage("Acesso localizado com sucesso!");
@@ -52,24 +53,31 @@ public class AcessoService {
         response.setTimestamp(Util.getLocalTime());
         response.setStatus(HttpStatus.FOUND.value());
         response.setData(acesso);
-        return  response;
+        return response;
     }
 
     @Transactional
-    public  CustomResponse<Acesso>  deletarPorId(Long id) {
+    public String deletarPorId(Long id) {
+        Acesso acesso = acessoRepository.findById(id).orElseThrow(() -> new ControllerNotFoundException("Erro ao deletar o acesso"));
+        acessoRepository.deleteById(acesso.getId());
+        return "Acesso deletado com sucesso!";
+    }
+
+    @Transactional
+    public CustomResponse<Acesso> deletarPorIdCustom(Long id) {
         Acesso acesso = acessoRepository.findById(id).orElseThrow(() -> new ControllerNotFoundException("Erro ao deletar o acesso"));
         acessoRepository.deleteById(acesso.getId());
         CustomResponse<Acesso> response = new CustomResponse<>();
-        response.setMessage("Acesso delato com sucesso!");
+        response.setMessage("Acesso deletado com sucesso!");
         response.setPath(httpServletRequest.getRequestURI());
         response.setTimestamp(Util.getLocalTime());
         response.setStatus(HttpStatus.OK.value());
         response.setData(null);
-        return  response;
+        return response;
     }
 
     @Transactional
-    public CustomResponse<Acesso>  deletarTodos() {
+    public CustomResponse<Acesso> deletarTodos() {
         try {
             acessoRepository.deleteAll();
             CustomResponse<Acesso> response = new CustomResponse<>();
@@ -78,7 +86,7 @@ public class AcessoService {
             response.setTimestamp(Util.getLocalTime());
             response.setStatus(HttpStatus.OK.value());
             response.setData(null);
-            return  response;
+            return response;
         } catch (Exception e) {
             throw new ControllerNotFoundException("Erro ao deletar o acesso");
         }

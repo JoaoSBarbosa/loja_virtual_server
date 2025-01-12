@@ -56,7 +56,7 @@ public class LojaVirtualServerApplicationTests {
 
         // Imprimir a resposta da API
         String jsonResponse = retornoApi.andReturn().getResponse().getContentAsString();
-        System.out.println("Retorno: " + jsonResponse);
+        System.out.println("Retorno - POST: " + jsonResponse);
 
         // Extração do campo "data"
         JsonNode rootNode = jsonMapper.readTree(jsonResponse);
@@ -70,19 +70,30 @@ public class LojaVirtualServerApplicationTests {
     }
 
 
+    @Test
     public void testarDeletarAcessoAPI() throws JsonParseException, Exception {
         DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.context);
         MockMvc mockMvc = builder.build();
         Acesso acesso = new Acesso();
         acesso.setDescricao("ROLE_MOCK5");
-
-        acesso = acessoRepository.saveAndFlush(acesso);
-
-        ObjectMapper jsonMapper = new ObjectMapper();
-        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.delete("/acessos/{id}", acesso.getId()));
-
+        ObjectMapper objectMapper = new ObjectMapper();
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.post("/acessos/salvar")
+                .content(objectMapper.writeValueAsString(acesso))
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON));
         String jsonResponse = resultActions.andReturn().getResponse().getContentAsString();
-        System.out.println("Retorno: " + jsonResponse);
+
+        JsonNode rootNode = objectMapper.readTree(jsonResponse);
+        JsonNode dataNode = rootNode.get("data");
+        Acesso entity = objectMapper.treeToValue(dataNode, Acesso.class);
+
+        ResultActions resultActions2 = mockMvc.perform(MockMvcRequestBuilders.delete("/acessos/{id}", entity.getId()));
+
+        String jsonResponse2 = resultActions2.andReturn().getResponse().getContentAsString();
+
+        System.out.println("Retorno - DELETE: " + jsonResponse2);
+        Assertions.assertEquals("Acesso deletado com sucesso!", jsonResponse2);
+        Assertions.assertEquals(200, resultActions2.andReturn().getResponse().getStatus());
 
 
     }

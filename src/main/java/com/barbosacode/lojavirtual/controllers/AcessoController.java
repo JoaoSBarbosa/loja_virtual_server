@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -36,15 +37,21 @@ public class AcessoController {
         return ResponseEntity.ok(acesso);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<CustomResponse<Acesso>> deletarAcesso(@PathVariable Long id) {
-        CustomResponse<Acesso> acesso = acessoService.deletarPorId(id);
+    @DeleteMapping("/{id}/custom")
+    public ResponseEntity<CustomResponse<Acesso>> deletarAcessoCustom(@PathVariable Long id) {
+        CustomResponse<Acesso> acesso = acessoService.deletarPorIdCustom(id);
         return ResponseEntity.ok(acesso);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deletarAcesso(@PathVariable Long id) {
+        String returnMessage = acessoService.deletarPorId(id);
+        return ResponseEntity.ok(returnMessage);
     }
 
     @DeleteMapping("/all")
     public ResponseEntity<CustomResponse<Acesso>> deletarAcessos() {
-        CustomResponse<Acesso>  retorno = acessoService.deletarTodos();
+        CustomResponse<Acesso> retorno = acessoService.deletarTodos();
         return ResponseEntity.ok(retorno);
     }
 }
