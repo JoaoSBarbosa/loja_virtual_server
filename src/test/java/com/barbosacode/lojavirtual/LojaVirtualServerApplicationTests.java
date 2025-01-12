@@ -107,6 +107,9 @@ public class LojaVirtualServerApplicationTests {
                 e.printStackTrace();
             }
         });
+
+        Assertions.assertEquals(acesso.getDescricao(), acessos.get(0).getDescricao());
+        acessoRepository.deleteById(returnApi.getId());
     }
 
 

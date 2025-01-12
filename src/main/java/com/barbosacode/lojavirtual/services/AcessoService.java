@@ -43,7 +43,7 @@ public class AcessoService {
 
     @Transactional(readOnly = true)
     public List<AcessoDTO> buscarPorDescricao(String descricao) {
-        List<Acesso> acesso = acessoRepository.findByDescricao(descricao);
+        List<Acesso> acesso = acessoRepository.findByDescricaoContaining(descricao.toUpperCase());
         return acesso.stream().map(AcessoDTO::new).toList();
     }
 
