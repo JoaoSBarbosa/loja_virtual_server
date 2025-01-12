@@ -39,7 +39,7 @@ public class LojaVirtualServerApplicationTests {
 
 
     @Test
-    public void testarCadastroAcessoAPI() throws JsonParseException, Exception {
+    public void deveCadastrarNovoAcessoViaAPI() throws JsonParseException, Exception {
 
         DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.context);
         MockMvc mockMvc = builder.build();
@@ -71,7 +71,7 @@ public class LojaVirtualServerApplicationTests {
 
 
     @Test
-    public void testarDeletarAcessoAPI() throws JsonParseException, Exception {
+    public void deveExcluirAcessoViaAPI() throws JsonParseException, Exception {
         DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.context);
         MockMvc mockMvc = builder.build();
         Acesso acesso = new Acesso();
@@ -99,7 +99,7 @@ public class LojaVirtualServerApplicationTests {
 
 
     @Test
-    public void testarCadastrarAcessoRetornoBasicoAPI() throws Exception {
+    public void deveCadastrarAcessoEBasicamenteValidarRetorno() throws Exception {
         // Configurar o mock para simular o contexto da aplicação (MockMvc)
         DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.context);
         MockMvc mockMvc = builder.build();
@@ -133,35 +133,52 @@ public class LojaVirtualServerApplicationTests {
 
 
     @Test
-    public void testarCadastrarAcessoEObterObjetoAPI() throws JsonParseException, Exception {
+    public void deveCadastrarEConsultarAcessoPorIdViaAPI() throws Exception {
+        // Configurar o mock para simular o contexto da aplicação (MockMvc)
         DefaultMockMvcBuilder build = MockMvcBuilders.webAppContextSetup(this.context);
         MockMvc mockMvc = build.build();
 
+        // Instanciar o objeto que será enviado na requisição
         Acesso cadastro = new Acesso("ROLE_TESTE_GET");
-        ObjectMapper objectMapper = new ObjectMapper();
-        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.post("/acessos/salvar/custom")
-                .content(objectMapper.writeValueAsString(cadastro))
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON));
 
-        // Este trecho é necessario apenas porque a resposta esta dnetro de uma estrutura diferente, caso contrario, bastaria pegar o resultando
+        // Serializar o objeto para JSON (necessário para enviar no corpo da requisição)
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonRequest = objectMapper.writeValueAsString(cadastro);
+
+        // Fazer a requisição POST para salvar o objeto na API
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.post("/acessos/salvar/custom")
+                .content(jsonRequest) // JSON no corpo da requisição
+                .accept(MediaType.APPLICATION_JSON) // Aceitar resposta no formato JSON
+                .contentType(MediaType.APPLICATION_JSON)); // Tipo do conteúdo: JSON
+
+        // Obter o JSON da resposta
         String jsonResponse = resultActions.andReturn().getResponse().getContentAsString();
 
+        // Ler o nó "data" da resposta para obter o objeto retornado
         JsonNode rootNode = objectMapper.readTree(jsonResponse);
         JsonNode dataNode = rootNode.get("data");
         Acesso entity = objectMapper.treeToValue(dataNode, Acesso.class);
 
-        ObjectMapper objectMapper2 = new ObjectMapper();
-        ResultActions resultActions1 = mockMvc.perform(MockMvcRequestBuilders.get("/acessos/{id}/custom", entity.getId()));
+        // Fazer a requisição GET para buscar o objeto pelo ID retornado
+        ResultActions resultActions1 = mockMvc.perform(MockMvcRequestBuilders.get("/acessos/{id}/custom", entity.getId())
+                .accept(MediaType.APPLICATION_JSON));
 
+        // Obter o JSON da resposta da requisição GET
         String jsonResponse1 = resultActions1.andReturn().getResponse().getContentAsString();
+
+        // Ler o nó "data" da resposta para obter o objeto retornado
         JsonNode rootNode1 = objectMapper.readTree(jsonResponse1);
         JsonNode dataNode1 = rootNode1.get("data");
         Acesso entity2 = objectMapper.treeToValue(dataNode1, Acesso.class);
+
+        // Exibir o objeto retornado no console (útil para debug)
         System.out.println("Entidade - Teste GET: " + entity2);
 
-        Assertions.assertEquals(entity2.getDescricao(), entity2.getDescricao());
-        Assertions.assertEquals("ROLE_TESTE_GET", entity2.getDescricao());
+        // Validar se o objeto retornado possui a descrição correta
+        Assertions.assertEquals("ROLE_TESTE_GET", entity2.getDescricao(), "A descrição do objeto retornado deve ser ROLE_TESTE_GET");
+
+        // Validar se os objetos enviados e retornados possuem a mesma descrição
+        Assertions.assertEquals(entity.getDescricao(), entity2.getDescricao(), "As descrições dos objetos devem ser iguais");
     }
 
 

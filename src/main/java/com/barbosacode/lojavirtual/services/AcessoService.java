@@ -1,5 +1,6 @@
 package com.barbosacode.lojavirtual.services;
 
+import com.barbosacode.lojavirtual.dto.AcessoDTO;
 import com.barbosacode.lojavirtual.dto.CustomResponse;
 import com.barbosacode.lojavirtual.exceptions.ControllerNotFoundException;
 import com.barbosacode.lojavirtual.models.Acesso;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpServletRequest;
 import java.net.http.HttpRequest;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AcessoService {
@@ -37,6 +39,12 @@ public class AcessoService {
     @Transactional(readOnly = true)
     public Acesso buscarPorId(Long id) {
         return acessoRepository.findById(id).orElseThrow(() -> new ControllerNotFoundException("Não foi localizado registro de Acessos com o id informado"));
+    }
+
+    @Transactional(readOnly = true)
+    public List<AcessoDTO> buscarPorDescricao(String descricao) {
+        List<Acesso> acesso = acessoRepository.findByDescricao(descricao);
+        return acesso.stream().map(AcessoDTO::new).toList();
     }
 
     @Transactional

@@ -1,5 +1,6 @@
 package com.barbosacode.lojavirtual.controllers;
 
+import com.barbosacode.lojavirtual.dto.AcessoDTO;
 import com.barbosacode.lojavirtual.dto.CustomResponse;
 import com.barbosacode.lojavirtual.models.Acesso;
 import com.barbosacode.lojavirtual.services.AcessoService;
@@ -44,6 +45,12 @@ public class AcessoController {
     public ResponseEntity<Acesso> buscarPorId(@PathVariable Long id) {
         Acesso acesso = acessoService.buscarPorId(id);
         return ResponseEntity.ok(acesso);
+    }
+
+    @GetMapping("/description")
+    public ResponseEntity<List<AcessoDTO>> buscarPorDescricao(@RequestParam("desc") String descricao) {
+        List<AcessoDTO> acessoDTO = acessoService.buscarPorDescricao(descricao);
+        return ResponseEntity.ok(acessoDTO);
     }
 
 
