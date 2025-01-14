@@ -5,10 +5,14 @@ target/
 !**/src/test/**/target/
 
 # Ignorar arquivos application.properties
+# Ignorar arquivos application.properties
 /application.properties
 /application-dev.properties
 /application-prod.properties
 **/application.properties
+**/application-dev.properties
+**/application-prod.properties
+
 
 
 ### STS ###
