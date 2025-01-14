@@ -1,4 +1,6 @@
 package com.barbosacode.lojavirtual.models;
+import com.barbosacode.lojavirtual.enums.TipoPessoa;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +24,8 @@ public abstract class Pessoa implements Serializable {
 	private String sobrenome;
 	@Column(nullable = false)
 	private String email;
+	@Enumerated(EnumType.STRING)
+	private TipoPessoa tipoPessoa;
 	
 	@OneToMany(mappedBy = "pessoaTelefone", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Telefone> telefones = new ArrayList<>();
@@ -36,6 +40,14 @@ public abstract class Pessoa implements Serializable {
 		this.nome = nome;
 		this.sobrenome = sobrenome;
 		this.email = email;
+	}
+
+	public TipoPessoa getTipoPessoa() {
+		return tipoPessoa;
+	}
+
+	public void setTipoPessoa(TipoPessoa tipoPessoa) {
+		this.tipoPessoa = tipoPessoa;
 	}
 
 	public Long getId() {
