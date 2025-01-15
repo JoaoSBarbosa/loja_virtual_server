@@ -1,8 +1,15 @@
 package com.barbosacode.lojavirtual.enums;
 
 public enum TipoPessoa {
-    FISICA("Fisica"),
-    JURIDICA("Juridica");
+    USUARIO("Usuário"),
+    FUNCIONARIO("Funcionário"),
+    ADMINISTRADOR("Administrador"),
+    CLIENTE("Cliente"),
+    FORNECEDOR("Fornecedor"),
+    PARCEIRO("Parceiro"),
+    ESTAGIARIO("Estagiário"),
+    FREELANCER("Freelancer"),
+    GERENTE("Gerente");
 
     private String descricao;
 
