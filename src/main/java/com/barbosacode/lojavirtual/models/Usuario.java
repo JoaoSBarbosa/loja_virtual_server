@@ -20,36 +20,45 @@ public class Usuario implements Serializable, UserDetails {
     @Temporal(TemporalType.DATE)
     private Date dataAtualSenha;
 
-    @OneToMany(fetch = FetchType.LAZY) // Carrega os acessos apenas quando necessario
-    @JoinTable(
-            name = "usuario_acesso",
-            uniqueConstraints = @UniqueConstraint(
-                    columnNames = {"id_usuario", "id_acesso"},
-                    name = "unique_acesso_user"
-            ),
-            joinColumns = @JoinColumn(
-                    name = "id_usuario",
-                    referencedColumnName = "id",
-                    table = "usuario",
-                    unique = false,
-                    foreignKey = @ForeignKey(
-                            name = "usuario_fk",
-                            value = ConstraintMode.CONSTRAINT
-                    )
-            ),
-            inverseJoinColumns = @JoinColumn(
-                    name = "id_acesso",
-                    referencedColumnName = "id",
-                    table = "acesso",
-                    unique = false,
-                    foreignKey = @ForeignKey(
-                            name = "acesso_fk",
-                            value = ConstraintMode.CONSTRAINT
-                    )
-            )
-    )
-    private List<Acesso> acessos;
+//    @OneToMany(fetch = FetchType.LAZY) // Carrega os acessos apenas quando necessario
+//    @OneToMany(fetch = FetchType.LAZY) // Carrega os acessos apenas quando necessario
+//    @JoinTable(
+//            name = "usuario_acesso",
+//            uniqueConstraints = @UniqueConstraint(
+//                    columnNames = {"id_usuario", "id_acesso"},
+//                    name = "unique_acesso_user"
+//            ),
+//            joinColumns = @JoinColumn(
+//                    name = "id_usuario",
+//                    referencedColumnName = "id",
+//                    table = "usuario",
+//                    unique = false,
+//                    foreignKey = @ForeignKey(
+//                            name = "usuario_fk",
+//                            value = ConstraintMode.CONSTRAINT
+//                    )
+//            ),
+//            inverseJoinColumns = @JoinColumn(
+//                    name = "id_acesso",
+//                    referencedColumnName = "id",
+//                    table = "acesso",
+//                    unique = false,
+//                    foreignKey = @ForeignKey(
+//                            name = "acesso_fk",
+//                            value = ConstraintMode.CONSTRAINT
+//                    )
+//            )
+//    )
+//    private List<Acesso> acessos;
 
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "usuario_acesso",
+            uniqueConstraints = @UniqueConstraint(columnNames = {"id_usuario", "id_acesso"}, name = "unique_acesso_user"),
+            joinColumns = @JoinColumn(name = "id_usuario", referencedColumnName = "id", table = "usuario", unique = false,
+                    foreignKey = @ForeignKey(name = "usuario_fk", value = ConstraintMode.CONSTRAINT)),
+            inverseJoinColumns = @JoinColumn(name = "id_acesso", referencedColumnName = "id", table = "acesso",  unique = false,
+                    foreignKey = @ForeignKey(name = "acesso_fk", value = ConstraintMode.CONSTRAINT)))
+    private Set<Acesso> acessos;
 
     @ManyToOne
     @JoinColumn(name = "id_pessoa", nullable = false,
@@ -107,13 +116,14 @@ public class Usuario implements Serializable, UserDetails {
         this.dataAtualSenha = dataAtualSenha;
     }
 
-    public List<Acesso> getAcessos() {
+    public Set<Acesso> getAcessos() {
         return acessos;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof Usuario usuario)) return false;
+        if (!(o instanceof Usuario)) return false;
+        Usuario usuario = (Usuario) o;
         return Objects.equals(id, usuario.id);
     }
 

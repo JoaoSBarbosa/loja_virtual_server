@@ -91,7 +91,8 @@ public class LogSistema {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof LogSistema that)) return false;
+        if (!(o instanceof LogSistema)) return false;
+        LogSistema that = (LogSistema) o;
         return Objects.equals(id, that.id);
     }
 

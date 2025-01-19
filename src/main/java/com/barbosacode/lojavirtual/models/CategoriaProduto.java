@@ -39,8 +39,9 @@ public class CategoriaProduto {
 
 	@Override
 	public boolean equals(Object o) {
-		if (!(o instanceof CategoriaProduto that)) return false;
-        return Objects.equals(id, that.id);
+		if (!(o instanceof CategoriaProduto)) return false;
+		CategoriaProduto that = (CategoriaProduto) o;
+		return Objects.equals(id, that.id);
 	}
 
 	@Override

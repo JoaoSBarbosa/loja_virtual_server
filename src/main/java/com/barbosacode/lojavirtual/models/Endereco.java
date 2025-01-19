@@ -145,8 +145,9 @@ public class Endereco {
 
 	@Override
 	public boolean equals(Object o) {
-		if (!(o instanceof Endereco endereco)) return false;
-        return Objects.equals(id, endereco.id);
+		if (!(o instanceof Endereco)) return false;
+		Endereco endereco = (Endereco) o;
+		return Objects.equals(id, endereco.id);
 	}
 
 	@Override

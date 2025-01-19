@@ -1,6 +1,5 @@
 package com.barbosacode.lojavirtual.models;
 import javax.persistence.*;
-import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -10,9 +9,6 @@ import java.util.Objects;
 @Table(name = "venda_compra")
 @SequenceGenerator(name = "seq_venda_compra", sequenceName = "seq_venda_compra", allocationSize = 1, initialValue = 1)
 public class VendaCompra implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_venda_compra")
@@ -192,7 +188,8 @@ public class VendaCompra implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof VendaCompra that)) return false;
+        if (!(o instanceof VendaCompra)) return false;
+        VendaCompra that = (VendaCompra) o;
         return Objects.equals(id, that.id);
     }
 

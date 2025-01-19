@@ -1,11 +1,4 @@
---
--- PostgreSQL database dump
---
 
--- Dumped from database version 17.2 (Ubuntu 17.2-1.pgdg24.04+1)
--- Dumped by pg_dump version 17.2 (Ubuntu 17.2-1.pgdg24.04+1)
-
--- Started on 2024-12-23 20:59:39 -03
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -19,17 +12,12 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
---
--- TOC entry 3640 (class 1262 OID 16397)
--- Name: db_loja_virtual_teste; Type: DATABASE; Schema: -; Owner: postgres
---
 
 CREATE DATABASE db_loja_virtual WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE_PROVIDER = libc LOCALE = 'pt_BR.UTF-8';
 
 
 ALTER DATABASE db_loja_virtual OWNER TO postgres;
 
--- \connect db_loja_virtual
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -46,49 +34,33 @@ SET row_security = off;
 
 ALTER SCHEMA public OWNER TO pg_database_owner;
 
---
--- TOC entry 3641 (class 0 OID 0)
--- Dependencies: 4
--- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: pg_database_owner
---
 
 COMMENT ON SCHEMA public IS 'standard public schema';
 
-
---
--- TOC entry 263 (class 1255 OID 16949)
--- Name: registrar_log_sistema(); Type: FUNCTION; Schema: public; Owner: postgres
---
 
 CREATE FUNCTION public.registrar_log_sistema() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
-    -- Registra o log para DELETE
     IF (TG_OP = 'DELETE') THEN
         INSERT INTO log_sistema (data_registro_log, descricao_log, hora_registro_log, id_usuario)
         VALUES (CURRENT_DATE, 'Exclusão de registro da tabela ' || TG_TABLE_NAME || ' com ID ' || OLD.id, CURRENT_TIME, OLD.id_usuario);
 RETURN OLD;
 END IF;
 
-    -- Registra o log para UPDATE
     IF (TG_OP = 'UPDATE') THEN
         INSERT INTO Log_sistema (data_registro_log, descricao_log, hora_registro_log, id_usuario)
         VALUES (CURRENT_DATE, 'Atualização de registro na tabela ' || TG_TABLE_NAME || ' com ID ' || NEW.id, CURRENT_TIME, NEW.id_usuario);
 RETURN NEW;
 END IF;
 
-RETURN NULL; -- Caso nenhuma condição acima seja atendida
+RETURN NULL;
 END;
 $$;
 
 
 ALTER FUNCTION public.registrar_log_sistema() OWNER TO postgres;
 
---
--- TOC entry 261 (class 1255 OID 16925)
--- Name: validachavepessoa(); Type: FUNCTION; Schema: public; Owner: postgres
---
 
 CREATE FUNCTION public.validachavepessoa() RETURNS trigger
     LANGUAGE plpgsql
@@ -96,10 +68,8 @@ CREATE FUNCTION public.validachavepessoa() RETURNS trigger
 DECLARE
 existe INTEGER;
 BEGIN
-    -- Verifica na tabela pessoa_fisica
     existe = (SELECT COUNT(1) FROM pessoa_fisica WHERE id = NEW.id_pessoa);
     IF existe <= 0 THEN
-        -- Verifica na tabela pessoa_juridica
         existe = (SELECT COUNT(1) FROM pessoa_juridica WHERE id = NEW.id_pessoa);
         IF existe <= 0 THEN
             RAISE EXCEPTION 'Não foi encontrado o ID e PK da pessoa para realizar a associação do cadastro';
@@ -113,10 +83,6 @@ $$;
 
 ALTER FUNCTION public.validachavepessoa() OWNER TO postgres;
 
---
--- TOC entry 262 (class 1255 OID 16946)
--- Name: validachavepessoaforn(); Type: FUNCTION; Schema: public; Owner: postgres
---
 
 CREATE FUNCTION public.validachavepessoaforn() RETURNS trigger
     LANGUAGE plpgsql
@@ -141,10 +107,6 @@ SET default_tablespace = '';
 
 SET default_table_access_method = heap;
 
---
--- TOC entry 237 (class 1259 OID 16698)
--- Name: acesso; Type: TABLE; Schema: public; Owner: postgres
---
 
 CREATE TABLE public.acesso (
                                id bigint NOT NULL,
@@ -154,10 +116,6 @@ CREATE TABLE public.acesso (
 
 ALTER TABLE public.acesso OWNER TO postgres;
 
---
--- TOC entry 238 (class 1259 OID 16703)
--- Name: avaliacao; Type: TABLE; Schema: public; Owner: postgres
---
 
 CREATE TABLE public.avaliacao (
                                   id bigint NOT NULL,
@@ -171,10 +129,6 @@ CREATE TABLE public.avaliacao (
 
 ALTER TABLE public.avaliacao OWNER TO postgres;
 
---
--- TOC entry 239 (class 1259 OID 16708)
--- Name: categoria_produto; Type: TABLE; Schema: public; Owner: postgres
---
 
 CREATE TABLE public.categoria_produto (
                                           id bigint NOT NULL,
@@ -183,11 +137,6 @@ CREATE TABLE public.categoria_produto (
 
 
 ALTER TABLE public.categoria_produto OWNER TO postgres;
-
---
--- TOC entry 240 (class 1259 OID 16713)
--- Name: conta_pagar; Type: TABLE; Schema: public; Owner: postgres
---
 
 CREATE TABLE public.conta_pagar (
                                     id bigint NOT NULL,
@@ -206,10 +155,6 @@ CREATE TABLE public.conta_pagar (
 
 ALTER TABLE public.conta_pagar OWNER TO postgres;
 
---
--- TOC entry 241 (class 1259 OID 16720)
--- Name: conta_receber; Type: TABLE; Schema: public; Owner: postgres
---
 
 CREATE TABLE public.conta_receber (
                                       id bigint NOT NULL,
@@ -225,11 +170,6 @@ CREATE TABLE public.conta_receber (
 
 ALTER TABLE public.conta_receber OWNER TO postgres;
 
---
--- TOC entry 242 (class 1259 OID 16727)
--- Name: cupom_desconto; Type: TABLE; Schema: public; Owner: postgres
---
-
 CREATE TABLE public.cupom_desconto (
                                        id bigint NOT NULL,
                                        codigo_desconto character varying(255) NOT NULL,
@@ -241,10 +181,7 @@ CREATE TABLE public.cupom_desconto (
 
 ALTER TABLE public.cupom_desconto OWNER TO postgres;
 
---
--- TOC entry 243 (class 1259 OID 16732)
--- Name: endereco; Type: TABLE; Schema: public; Owner: postgres
---
+
 
 CREATE TABLE public.endereco (
                                  id bigint NOT NULL,
@@ -262,10 +199,7 @@ CREATE TABLE public.endereco (
 
 ALTER TABLE public.endereco OWNER TO postgres;
 
---
--- TOC entry 244 (class 1259 OID 16739)
--- Name: forma_pagamento; Type: TABLE; Schema: public; Owner: postgres
---
+
 
 CREATE TABLE public.forma_pagamento (
                                         id bigint NOT NULL,
@@ -275,10 +209,6 @@ CREATE TABLE public.forma_pagamento (
 
 ALTER TABLE public.forma_pagamento OWNER TO postgres;
 
---
--- TOC entry 245 (class 1259 OID 16744)
--- Name: imagem_produto; Type: TABLE; Schema: public; Owner: postgres
---
 
 CREATE TABLE public.imagem_produto (
                                        id bigint NOT NULL,
@@ -290,10 +220,7 @@ CREATE TABLE public.imagem_produto (
 
 ALTER TABLE public.imagem_produto OWNER TO postgres;
 
---
--- TOC entry 246 (class 1259 OID 16751)
--- Name: item_venda; Type: TABLE; Schema: public; Owner: postgres
---
+
 
 CREATE TABLE public.item_venda (
                                    id bigint NOT NULL,
@@ -305,10 +232,7 @@ CREATE TABLE public.item_venda (
 
 ALTER TABLE public.item_venda OWNER TO postgres;
 
---
--- TOC entry 259 (class 1259 OID 16930)
--- Name: log_sistema; Type: TABLE; Schema: public; Owner: postgres
---
+
 
 CREATE TABLE public.log_sistema (
                                     id bigint NOT NULL,
@@ -321,10 +245,7 @@ CREATE TABLE public.log_sistema (
 
 ALTER TABLE public.log_sistema OWNER TO postgres;
 
---
--- TOC entry 247 (class 1259 OID 16756)
--- Name: marca_produto; Type: TABLE; Schema: public; Owner: postgres
---
+
 
 CREATE TABLE public.marca_produto (
                                       id bigint NOT NULL,
@@ -334,10 +255,6 @@ CREATE TABLE public.marca_produto (
 
 ALTER TABLE public.marca_produto OWNER TO postgres;
 
---
--- TOC entry 248 (class 1259 OID 16761)
--- Name: nota_fiscal_compra; Type: TABLE; Schema: public; Owner: postgres
---
 
 CREATE TABLE public.nota_fiscal_compra (
                                            id bigint NOT NULL,
@@ -355,10 +272,7 @@ CREATE TABLE public.nota_fiscal_compra (
 
 ALTER TABLE public.nota_fiscal_compra OWNER TO postgres;
 
---
--- TOC entry 249 (class 1259 OID 16768)
--- Name: nota_fiscal_venda; Type: TABLE; Schema: public; Owner: postgres
---
+
 
 CREATE TABLE public.nota_fiscal_venda (
                                           id bigint NOT NULL,

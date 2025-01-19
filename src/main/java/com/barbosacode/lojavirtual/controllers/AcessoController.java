@@ -7,6 +7,7 @@ import com.barbosacode.lojavirtual.services.AcessoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,6 +36,7 @@ public class AcessoController {
     }
 
 
+    @Secured({"ROLE_GERENTE", "ROLE_ADMIN"})
     @DeleteMapping("/all")
     public ResponseEntity<String> deletarTodosAcessos() {
         String responseMesage = acessoService.deletarTodos();
@@ -53,7 +55,7 @@ public class AcessoController {
         return ResponseEntity.ok(acessoDTO);
     }
 
-
+    @Secured({"ROLE_GERENTE", "ROLE_ADMIN"})
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletarAcesso(@PathVariable Long id) {
         String returnMessage = acessoService.deletarPorId(id);

@@ -39,8 +39,9 @@ public class MarcaProduto {
 
 	@Override
 	public boolean equals(Object o) {
-		if (!(o instanceof MarcaProduto that)) return false;
-        return Objects.equals(id, that.id);
+		if (!(o instanceof MarcaProduto)) return false;
+		MarcaProduto that = (MarcaProduto) o;
+		return Objects.equals(id, that.id);
 	}
 
 	@Override

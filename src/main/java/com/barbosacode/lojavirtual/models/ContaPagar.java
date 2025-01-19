@@ -1,7 +1,6 @@
 package com.barbosacode.lojavirtual.models;
 import com.barbosacode.lojavirtual.enums.StatusContaPagar;
 import javax.persistence.*;
-import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -12,8 +11,6 @@ import java.util.Objects;
 @Table(name = "conta_pagar")
 @SequenceGenerator(name = "seq_conta_pagar", sequenceName = "seq_conta_pagar", allocationSize = 1, initialValue = 1)
 public class ContaPagar implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
 
     @Id
 
@@ -174,9 +171,11 @@ public class ContaPagar implements Serializable {
         this.formaPagamento = formaPagamento;
     }
 
+
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof ContaPagar that)) return false;
+        if (!(o instanceof ContaPagar)) return false;
+        ContaPagar that = (ContaPagar) o;
         return Objects.equals(id, that.id);
     }
 
