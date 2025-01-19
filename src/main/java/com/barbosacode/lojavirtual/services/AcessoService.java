@@ -44,8 +44,9 @@ public class AcessoService {
     @Transactional(readOnly = true)
     public List<AcessoDTO> buscarPorDescricao(String descricao) {
         List<Acesso> acesso = acessoRepository.findByDescricaoContaining(descricao.toUpperCase());
-        return acesso.stream().map(AcessoDTO::new).toList();
+        return acesso.stream().map(AcessoDTO::new).collect(Collectors.toList());
     }
+
 
     @Transactional
     public String deletarPorId(Long id) {

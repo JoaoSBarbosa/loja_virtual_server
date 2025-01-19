@@ -81,8 +81,9 @@ public class Telefone {
 
 	@Override
 	public boolean equals(Object o) {
-		if (!(o instanceof Telefone telefone)) return false;
-        return Objects.equals(id, telefone.id);
+		if (!(o instanceof Telefone)) return false;
+		Telefone telefone = (Telefone) o;
+		return Objects.equals(id, telefone.id);
 	}
 
 	@Override

@@ -1,9 +1,5 @@
 package com.barbosacode.lojavirtual.dto;
-
 import com.barbosacode.lojavirtual.models.Acesso;
-
-import javax.persistence.Column;
-import java.io.Serial;
 import java.io.Serializable;
 
 

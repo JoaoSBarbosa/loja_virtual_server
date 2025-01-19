@@ -39,7 +39,8 @@ public class FormaPagamento {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof FormaPagamento that)) return false;
+        if (!(o instanceof FormaPagamento)) return false;
+        FormaPagamento that = (FormaPagamento) o;
         return Objects.equals(id, that.id);
     }
 

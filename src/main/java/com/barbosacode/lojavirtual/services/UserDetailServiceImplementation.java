@@ -21,6 +21,8 @@ public class UserDetailServiceImplementation implements UserDetailsService {
         if(usuario == null) {
             throw new UsernameNotFoundException("Usuário inexistente com o login informado: " + login);
         }
+        // Garantir que os acessos sejam inicializados dentro da transação
+
         return new User(usuario.getLogin(), usuario.getPassword(), usuario.getAuthorities());
     }
 }
