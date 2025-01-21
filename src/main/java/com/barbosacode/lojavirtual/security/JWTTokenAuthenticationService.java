@@ -3,6 +3,7 @@ import com.barbosacode.lojavirtual.config.ApplicationContextLoad;
 import com.barbosacode.lojavirtual.exceptions.ControllerNotFoundException;
 import com.barbosacode.lojavirtual.models.Usuario;
 import com.barbosacode.lojavirtual.repositories.UsuarioRepository;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import javax.crypto.SecretKey;
@@ -25,7 +26,8 @@ import java.util.Date;
 public class JWTTokenAuthenticationService {
 
     /* Token tem validade de 10 dias */
-    private static final long EXPIRATION_TIME = 864000000;
+//    private static final long EXPIRATION_TIME = 864000000;
+    private static final long EXPIRATION_TIME = 1;
     private static final String SECRET = "BarbosaCodeW0lf2025";
     private static final String TOKEN_PREFIX = "Bearer";
     private static final String HEADER_STRING = "Authorization";
@@ -133,7 +135,11 @@ public class JWTTokenAuthenticationService {
                     return null;
                 }
             }
-        } catch (io.jsonwebtoken.security.SignatureException e) {
+        } catch (ExpiredJwtException e){
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write("{\"error\": \"O token está expirado, efetue o login e tente novamente.\"}");
+        }
+        catch (io.jsonwebtoken.security.SignatureException e) {
             // Token com assinatura inválida
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().write("{\"error\": \"Token inválido: assinatura não corresponde.\"}");
@@ -141,7 +147,8 @@ public class JWTTokenAuthenticationService {
             // Tratamento genérico para erros de JWT (token malformado, expirado, etc.)
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().write("{\"error\": \"Erro ao processar o token: " + e.getMessage() + "\"}");
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             // Tratamento genérico de outros erros
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().write("{\"error\": \"Erro inesperado: " + e.getMessage() + "\"}");
