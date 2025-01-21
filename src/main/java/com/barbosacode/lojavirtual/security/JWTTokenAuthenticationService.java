@@ -26,8 +26,8 @@ import java.util.Date;
 public class JWTTokenAuthenticationService {
 
     /* Token tem validade de 10 dias */
-//    private static final long EXPIRATION_TIME = 864000000;
-    private static final long EXPIRATION_TIME = 1;
+    private static final long EXPIRATION_TIME = 864000000;
+//    private static final long EXPIRATION_TIME = 1;
     private static final String SECRET = "BarbosaCodeW0lf2025";
     private static final String TOKEN_PREFIX = "Bearer";
     private static final String HEADER_STRING = "Authorization";
