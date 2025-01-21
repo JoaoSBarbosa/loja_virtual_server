@@ -61,6 +61,5 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
             errorMessage = "Erro ao autenticar: " + failed.getMessage();
         }
 
-
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.getWriter().write("{\"error\": \"" + errorMessage + "\"}");    }}
