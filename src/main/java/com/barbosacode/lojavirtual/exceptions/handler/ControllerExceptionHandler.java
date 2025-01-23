@@ -2,6 +2,7 @@ package com.barbosacode.lojavirtual.exceptions.handler;
 
 import com.barbosacode.lojavirtual.exceptions.ControllerNotFoundException;
 import com.barbosacode.lojavirtual.exceptions.components.StandardError;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,8 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolationException;
+import java.sql.SQLException;
 import java.time.Instant;
 import java.util.List;
 
@@ -55,5 +58,26 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         standardError.setStatus(status.value());
 
         return new ResponseEntity<>(standardError, headers, status);
+    }
+
+    @ExceptionHandler({DataIntegrityViolationException.class, ConstraintViolationException.class, SQLException.class})
+    protected ResponseEntity<StandardError> handleConstraintViolation(Exception ex, WebRequest request) {
+        StandardError standardError = new StandardError();
+        standardError.setTimestamp(Instant.now());
+        String message = "";
+
+        if(ex instanceof ConstraintViolationException){
+            message = "Erro de chave estrageira: " +((ConstraintViolationException) ex).getConstraintViolations().iterator().next().getMessage();
+        }else if(ex instanceof SQLException){
+            message = "Erro no Banco de Dados: "+ ((SQLException) ex).getCause().getMessage();
+        }else if(ex instanceof DataIntegrityViolationException){
+            message = "Erro de integridade de dados: "+ ((DataIntegrityViolationException) ex).getCause().getMessage();
+        }else {
+            message += ex.getMessage();
+        }
+
+        standardError.setMessage(message);
+        standardError.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        return new ResponseEntity<>(standardError, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
