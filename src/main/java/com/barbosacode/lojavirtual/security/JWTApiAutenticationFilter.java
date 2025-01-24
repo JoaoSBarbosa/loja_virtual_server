@@ -16,13 +16,33 @@ public class JWTApiAutenticationFilter extends GenericFilterBean {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 
-        /* Estabeler autenticação do usario */
-        Authentication authentication = new JWTTokenAuthenticationService().getAuthentication((HttpServletRequest) request, (HttpServletResponse) response);
+      try {
+          /* Estabeler autenticação do usario */
+          Authentication authentication = new JWTTokenAuthenticationService().getAuthentication((HttpServletRequest) request, (HttpServletResponse) response);
 
-        /* processo de autenticação com Spring security - usa classe do spring para ativar todas as classes implementadas*/
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+          /* processo de autenticação com Spring security - usa classe do spring para ativar todas as classes implementadas*/
+          SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        filterChain.doFilter(request, response);
+          filterChain.doFilter(request, response);
+      }catch (Exception e) {
+          e.printStackTrace();
+          HttpServletResponse httpResponse = (HttpServletResponse) response;
+
+          // Evitar múltiplas escritas na resposta
+          if (!httpResponse.isCommitted()) {
+              httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); // Define o status HTTP
+              httpResponse.setContentType("application/json");
+              httpResponse.setCharacterEncoding("UTF-8");
+
+              // Cria a saída JSON formatada
+              String jsonError = String.format(
+                      "{\"title\":\"Ocorreu um erro no sistema\", \"error\":\"%s\"}",
+                      e.getMessage().replace("\"", "\\\"") // Escapa aspas para evitar erros no JSON
+              );
+
+              httpResponse.getWriter().write(jsonError);
+          }
+      }
 
     }
 }
