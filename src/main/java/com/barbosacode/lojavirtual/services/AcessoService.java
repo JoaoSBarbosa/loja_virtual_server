@@ -2,6 +2,8 @@ package com.barbosacode.lojavirtual.services;
 
 import com.barbosacode.lojavirtual.dto.AcessoDTO;
 import com.barbosacode.lojavirtual.dto.CustomResponse;
+import com.barbosacode.lojavirtual.exceptions.ControllerConflictException;
+import com.barbosacode.lojavirtual.exceptions.ControllerEmptyValueException;
 import com.barbosacode.lojavirtual.exceptions.ControllerNotFoundException;
 import com.barbosacode.lojavirtual.models.Acesso;
 import com.barbosacode.lojavirtual.repositories.AcessoRepository;
@@ -27,6 +29,10 @@ public class AcessoService {
 
     @Transactional
     public Acesso salvar(Acesso acesso) {
+        if (acesso.getDescricao() == null || acesso.getDescricao().isEmpty()) throw new ControllerEmptyValueException("Campo 'descrição' é obrigatório e não foi preenchido corretamente");
+
+        List<Acesso> actualList = acessoRepository.findByDescricaoContaining(acesso.getDescricao());
+        if (!actualList.isEmpty()) throw new ControllerConflictException("Já existe registro de acesso com essa descrição");
         return acessoRepository.save(acesso);
     }
 

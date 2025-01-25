@@ -1,5 +1,7 @@
 package com.barbosacode.lojavirtual.exceptions.handler;
 
+import com.barbosacode.lojavirtual.exceptions.ControllerConflictException;
+import com.barbosacode.lojavirtual.exceptions.ControllerEmptyValueException;
 import com.barbosacode.lojavirtual.exceptions.ControllerNotFoundException;
 import com.barbosacode.lojavirtual.exceptions.components.StandardError;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -34,6 +36,31 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(error, status);
     }
 
+    @ExceptionHandler(ControllerEmptyValueException.class)
+    public ResponseEntity<StandardError> controllerEmptyFound(ControllerNotFoundException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        StandardError error = new StandardError();
+        error.setMessage(e.getMessage());
+        error.setStatus(status.value());
+        error.setPath(request.getRequestURI());
+        error.setTimestamp(Instant.now());
+        error.setError("Campos ausentes ou inválidos");
+        return new ResponseEntity<>(error, status);
+
+    }
+
+    @ExceptionHandler(ControllerConflictException.class)
+    public ResponseEntity<StandardError> controllerConflict(ControllerConflictException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.CONFLICT;
+
+        StandardError error = new StandardError();
+        error.setMessage(e.getMessage());
+        error.setStatus(status.value());
+        error.setPath(request.getRequestURI());
+        error.setTimestamp(Instant.now());
+        error.setError("Conflito de dados detectado.");
+        return new ResponseEntity<>(error, status);
+    }
 
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(
@@ -46,12 +73,12 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         StandardError standardError = new StandardError();
         standardError.setTimestamp(Instant.now());
         String message = "";
-        if(ex instanceof MethodArgumentNotValidException){
+        if (ex instanceof MethodArgumentNotValidException) {
             List<ObjectError> list = ((MethodArgumentNotValidException) ex).getBindingResult().getAllErrors();
-            for(ObjectError objectError : list){
+            for (ObjectError objectError : list) {
                 message += objectError.getDefaultMessage() + "\n";
             }
-        }else {
+        } else {
             message += ex.getMessage();
         }
         standardError.setMessage(message);
@@ -66,13 +93,13 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         standardError.setTimestamp(Instant.now());
         String message = "";
 
-        if(ex instanceof ConstraintViolationException){
-            message = "Erro de chave estrageira: " +((ConstraintViolationException) ex).getConstraintViolations().iterator().next().getMessage();
-        }else if(ex instanceof SQLException){
-            message = "Erro no Banco de Dados: "+ ((SQLException) ex).getCause().getMessage();
-        }else if(ex instanceof DataIntegrityViolationException){
-            message = "Erro de integridade de dados: "+ ((DataIntegrityViolationException) ex).getCause().getMessage();
-        }else {
+        if (ex instanceof ConstraintViolationException) {
+            message = "Erro de chave estrageira: " + ((ConstraintViolationException) ex).getConstraintViolations().iterator().next().getMessage();
+        } else if (ex instanceof SQLException) {
+            message = "Erro no Banco de Dados: " + ((SQLException) ex).getCause().getMessage();
+        } else if (ex instanceof DataIntegrityViolationException) {
+            message = "Erro de integridade de dados: " + ((DataIntegrityViolationException) ex).getCause().getMessage();
+        } else {
             message += ex.getMessage();
         }
 
