@@ -31,8 +31,8 @@ public class AcessoService {
     public Acesso salvar(Acesso acesso) {
         if (acesso.getDescricao() == null || acesso.getDescricao().isEmpty()) throw new ControllerEmptyValueException("Campo 'descrição' é obrigatório e não foi preenchido corretamente");
 
-        List<Acesso> actualList = acessoRepository.findByDescricaoContaining(acesso.getDescricao());
-        if (!actualList.isEmpty()) throw new ControllerConflictException("Já existe registro de acesso com essa descrição");
+        List<Acesso> actualList = acessoRepository.findByDescricaoContaining(acesso.getDescricao().toUpperCase().trim());
+        if (!actualList.isEmpty()) throw new ControllerConflictException("Já existe registro de acesso com essa descrição : [" + acesso.getDescricao() + "]");
         return acessoRepository.save(acesso);
     }
 

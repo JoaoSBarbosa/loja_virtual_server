@@ -1,5 +1,6 @@
 package com.barbosacode.lojavirtual.models;
 import com.barbosacode.lojavirtual.enums.TipoPessoa;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -28,9 +29,11 @@ public abstract class Pessoa implements Serializable {
 	private TipoPessoa tipoPessoa;
 	
 	@OneToMany(mappedBy = "pessoaTelefone", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JsonManagedReference // indicando que esses são os "iniciadores" da serialização.
 	private List<Telefone> telefones = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "pessoaEndereco", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JsonManagedReference // indicando que esses são os "iniciadores" da serialização.
 	private List<Endereco> enderecos = new ArrayList<>();
 
 	public Pessoa() {}

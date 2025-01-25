@@ -1,5 +1,7 @@
 package com.barbosacode.lojavirtual.models;
 import com.barbosacode.lojavirtual.enums.TipoTelefone;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -19,9 +21,11 @@ public class Telefone {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "tipo_telefone")
 	private TipoTelefone tipoTelefone;
+
 	@ManyToOne(targetEntity = Pessoa.class)
 	@JoinColumn(name = "id_pessoa", nullable = false,
 	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "fk_telefone_pessoa"))
+	@JsonBackReference
 	private Pessoa pessoaTelefone;
 
 	public Telefone() {}

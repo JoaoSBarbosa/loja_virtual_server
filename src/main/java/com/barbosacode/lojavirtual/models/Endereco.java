@@ -1,6 +1,7 @@
 package com.barbosacode.lojavirtual.models;
 import javax.persistence.*;
 import com.barbosacode.lojavirtual.enums.TipoEndereco;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import java.util.Objects;
 
@@ -38,6 +39,7 @@ public class Endereco {
 	private TipoEndereco tipoEndereco;
 	
 	@ManyToOne(targetEntity = Pessoa.class) // Define o relacionamento "muitos-para-um" com a entidade Pessoa.
+	@JsonBackReference
 	@JoinColumn(
 	    name = "id_pessoa", // Nome da coluna que será criada na tabela Endereco para armazenar a chave estrangeira (ID de Pessoa).
 	    nullable = false, // Indica que essa coluna é obrigatória e não pode conter valores nulos.
